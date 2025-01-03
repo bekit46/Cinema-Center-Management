@@ -1,18 +1,37 @@
 package com.group15.controllers;
+import com.group15.Facade;
+import com.group15.Movie;
 import com.group15.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import java.io.IOException;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.control.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import java.io.IOException;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
 
-public class ManagerController {
+public class MovieController {
+    @FXML
+    private TableView<Movie> movieTable;
+    @FXML
+    private TableColumn<Movie, Integer> movieIdColumn;
+    @FXML
+    private TableColumn<Movie, String> titleColumn;
+    @FXML
+    private TableColumn<Movie, String> genreColumn;
+    @FXML
+    private TableColumn<Movie, Integer> priceColumn;
+    @FXML
+    private TableColumn<Movie, Integer> discountColumn;
+    @FXML
+    private TableColumn<Movie, Integer> taxColumn;
 
     @FXML
     private Label usernameLabel;
@@ -23,7 +42,8 @@ public class ManagerController {
 
     @FXML
     private Button closeButton; // Correct type for closeButton
-
+    @FXML
+    private Button saveButton;
     @FXML
     private Button inventoryButton;
     @FXML
@@ -33,6 +53,17 @@ public class ManagerController {
     @FXML
     private Button revenueButton;
 
+
+    private Facade facade;
+
+    // To track modified movies
+    private ObservableList<Movie> modifiedMovies;
+
+    public MovieController() {
+        this.facade = new Facade();
+        this.modifiedMovies = FXCollections.observableArrayList(); // Initialize the list
+    }
+
     private User user;
 
     public void setUser(User user) {
@@ -41,6 +72,63 @@ public class ManagerController {
         usernameLabel.setText(user.getUsername());
         nameSurnameLabel.setText(user.getName() + " " + user.getSurname());
         roleLabel.setText(user.getRole());
+    }
+
+    @FXML
+    private void initialize() {
+        // Initialize the table columns
+        movieTable.setEditable(true);
+        priceColumn.setEditable(true);
+        discountColumn.setEditable(true);
+        taxColumn.setEditable(true);
+        movieTable.getSelectionModel().setCellSelectionEnabled(true);
+
+        movieIdColumn.setCellValueFactory(new PropertyValueFactory<>("movieId"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        discountColumn.setCellValueFactory(new PropertyValueFactory<>("discount"));
+        taxColumn.setCellValueFactory(new PropertyValueFactory<>("tax"));
+        loadMovieData();
+
+        // Set cell factories and edit commit handlers
+        priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        priceColumn.setOnEditCommit(event -> {
+            Movie movie = event.getRowValue();
+            movie.setPrice(event.getNewValue());
+            // Track the modified movie
+            if (!modifiedMovies.contains(movie)) {
+                modifiedMovies.add(movie);
+            }
+            movieTable.refresh();
+        });
+
+        discountColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        discountColumn.setOnEditCommit(event -> {
+            Movie movie = event.getRowValue();
+            movie.setDiscount(event.getNewValue());
+            // Track the modified movie
+            if (!modifiedMovies.contains(movie)) {
+                modifiedMovies.add(movie);
+            }
+            movieTable.refresh();
+        });
+
+        taxColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        taxColumn.setOnEditCommit(event -> {
+            Movie movie = event.getRowValue();
+            movie.setTax(event.getNewValue());
+            // Track the modified movie
+            if (!modifiedMovies.contains(movie)) {
+                modifiedMovies.add(movie);
+            }
+            movieTable.refresh();
+        });
+    }
+
+    private void loadMovieData() {
+        ObservableList<Movie> movies = FXCollections.observableArrayList(facade.getAllMovies());
+        movieTable.setItems(movies);
     }
 
     @FXML
@@ -59,8 +147,35 @@ public class ManagerController {
             Stage loginStage = new Stage();
             loginStage.setScene(new Scene(loginRoot));
             loginStage.setTitle("Login");
-            makeStageFillScreen(loginStage);
             loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception (e.g., show an error message)
+        }
+    }
+
+    public void handleSaveButton() {
+        try {
+            // Iterate over modified movies and update them in the database
+            for (Movie movie : modifiedMovies) {
+                facade.updateMovie(movie);
+            }
+
+            // Optionally, clear the modified list after saving
+            modifiedMovies.clear();
+
+            // Load the manager menu scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/group15/managerMenuGUI.fxml"));
+            Parent managerMenuRoot = loader.load();
+
+            // Get the manager controller and pass the user object
+            ManagerController managerController = loader.getController();
+            managerController.setUser(user);
+
+            // Set the manager menu scene on the current stage
+            Stage currentStage = (Stage) saveButton.getScene().getWindow();
+            currentStage.setScene(new Scene(managerMenuRoot));
+            currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception (e.g., show an error message)
@@ -172,5 +287,4 @@ public class ManagerController {
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
     }
-
 }

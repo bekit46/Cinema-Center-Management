@@ -1,9 +1,10 @@
 package com.group15;
-
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class Main extends Application {
 
@@ -17,7 +18,18 @@ public class Main extends Application {
         // Configure the stage
         primaryStage.setTitle("Cinema Center Login");
         primaryStage.setScene(scene);
+        makeStageFillScreen(primaryStage);
         primaryStage.show();
+    }
+
+    public void makeStageFillScreen(Stage stage) {
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+        // Set the stage size to exactly match the screen dimensions
+        stage.setX(screenBounds.getMinX());
+        stage.setY(screenBounds.getMinY());
+        stage.setWidth(screenBounds.getWidth());
+        stage.setHeight(screenBounds.getHeight());
     }
 
     public static void main(String[] args) {

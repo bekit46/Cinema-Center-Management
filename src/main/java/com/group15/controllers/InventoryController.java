@@ -1,18 +1,37 @@
 package com.group15.controllers;
+import com.group15.Facade;
+import com.group15.Product;
 import com.group15.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
-public class ManagerController {
+public class InventoryController {
+
+    @FXML
+    private TableView<Product> inventoryTable;
+    @FXML
+    private TableColumn<Product, Integer> idColumn;
+    @FXML
+    private TableColumn<Product, String> nameColumn;
+    @FXML
+    private TableColumn<Product, Double> priceColumn;
+    @FXML
+    private TableColumn<Product, Integer> quantityColumn;
+    @FXML
+    private TableColumn<Product, Integer> taxColumn;
 
     @FXML
     private Label usernameLabel;
@@ -23,7 +42,8 @@ public class ManagerController {
 
     @FXML
     private Button closeButton; // Correct type for closeButton
-
+    @FXML
+    private Button saveButton;
     @FXML
     private Button inventoryButton;
     @FXML
@@ -33,6 +53,16 @@ public class ManagerController {
     @FXML
     private Button revenueButton;
 
+    private Facade facade;
+
+    // To track modified products
+    private ObservableList<Product> modifiedProducts;
+
+    public InventoryController() {
+        this.facade = new Facade();
+        this.modifiedProducts = FXCollections.observableArrayList(); // Initialize the list
+    }
+
     private User user;
 
     public void setUser(User user) {
@@ -41,6 +71,77 @@ public class ManagerController {
         usernameLabel.setText(user.getUsername());
         nameSurnameLabel.setText(user.getName() + " " + user.getSurname());
         roleLabel.setText(user.getRole());
+    }
+
+    @FXML
+    private void initialize() {
+        // Initialize the table columns
+        inventoryTable.setEditable(true);
+        nameColumn.setEditable(true);
+        priceColumn.setEditable(true);
+        quantityColumn.setEditable(true);
+        taxColumn.setEditable(true);
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
+        taxColumn.setCellValueFactory(new PropertyValueFactory<>("tax"));
+        loadInventoryData();
+
+        // Set cell factories and edit commit handlers
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameColumn.setOnEditCommit(event -> {
+            Product product = event.getRowValue();
+            String newName = event.getNewValue();
+            product.setProductName(newName);
+            // Track the modified product
+            if (!modifiedProducts.contains(product)) {
+                modifiedProducts.add(product);
+            }
+            inventoryTable.refresh();
+        });
+
+        priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        priceColumn.setOnEditCommit(event -> {
+            Product product = event.getRowValue();
+            Double newPrice = event.getNewValue();
+            product.setPrice(newPrice);
+            // Track the modified product
+            if (!modifiedProducts.contains(product)) {
+                modifiedProducts.add(product);
+            }
+            inventoryTable.refresh();
+        });
+
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        quantityColumn.setOnEditCommit(event -> {
+            Product product = event.getRowValue();
+            Integer newQuantity = event.getNewValue();
+            product.setStockQuantity(newQuantity);
+            // Track the modified product
+            if (!modifiedProducts.contains(product)) {
+                modifiedProducts.add(product);
+            }
+            inventoryTable.refresh();
+        });
+
+        taxColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        taxColumn.setOnEditCommit(event -> {
+            Product product = event.getRowValue();
+            Integer newTax = event.getNewValue();
+            product.setTax(newTax);
+            // Track the modified product
+            if (!modifiedProducts.contains(product)) {
+                modifiedProducts.add(product);
+            }
+            inventoryTable.refresh();
+        });
+    }
+
+    private void loadInventoryData() {
+        ObservableList<Product> products = FXCollections.observableArrayList(facade.getAllProducts());
+        inventoryTable.setItems(products);
     }
 
     @FXML
@@ -59,7 +160,7 @@ public class ManagerController {
             Stage loginStage = new Stage();
             loginStage.setScene(new Scene(loginRoot));
             loginStage.setTitle("Login");
-            makeStageFillScreen(loginStage);
+            makeStageFillScreen(currentStage);
             loginStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,7 +168,36 @@ public class ManagerController {
         }
     }
 
-    @FXML
+    public void handleSaveButton() {
+        try {
+            // Iterate over modified products and update them in the database
+            for (Product product : modifiedProducts) {
+                facade.updateProduct(product);
+            }
+
+            // Optionally, clear the modified list after saving
+            modifiedProducts.clear();
+
+            // Load the manager menu scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/group15/managerMenuGUI.fxml"));
+            Parent managerMenuRoot = loader.load();
+
+            // Get the manager controller and pass the user object
+            ManagerController managerController = loader.getController();
+            managerController.setUser(user);
+
+            // Set the manager menu scene on the current stage
+            Stage currentStage = (Stage) saveButton.getScene().getWindow();
+            currentStage.setScene(new Scene(managerMenuRoot));
+            makeStageFillScreen(currentStage);
+            currentStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception (e.g., show an error message)
+        }
+    }
+
+@FXML
     public void handleInventoryButton() {
         try {
             // Load the FXML file
@@ -172,5 +302,4 @@ public class ManagerController {
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
     }
-
 }

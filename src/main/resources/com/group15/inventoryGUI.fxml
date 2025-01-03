@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1870.0" style="-fx-background-color: f7f7f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group15.controllers.InventoryController">
+   <children>
+      <Label layoutX="233.0" layoutY="7.0" textFill="#ff7e1b">
+         <font>
+            <Font name="Tahoma Bold" size="18.0" />
+         </font>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </Label>
+      <TableView fx:id="inventoryTable" layoutX="310.0" layoutY="140.0" prefHeight="650.0" prefWidth="1500.0" style="-fx-background-color: #12202C;">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="75.0" text="Product ID" />
+          <TableColumn fx:id="nameColumn" prefWidth="283.0" text="Name" />
+            <TableColumn fx:id="quantityColumn" minWidth="0.0" prefWidth="74.0" text="Quantity" />
+            <TableColumn fx:id="priceColumn" prefWidth="74.0" text="Price" />
+            <TableColumn fx:id="taxColumn" prefWidth="73.0" text="Tax Rate" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Label layoutX="310.0" layoutY="90.0" prefHeight="43.0" prefWidth="342.0" text="Inventory Management" textFill="#12202c">
+         <font>
+            <Font name="Tahoma Bold" size="27.0" />
+         </font>
+      </Label>
+      <Button fx:id="saveButton" layoutX="1555.0" layoutY="805.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: Verdana; -fx-font-size: 16;" text="Save and Back to Menu" textFill="WHITE">
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </Button>
+      <Pane layoutY="-50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="250.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Button fx:id="inventoryButton" defaultButton="true" layoutX="14.0" layoutY="235.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleInventoryButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: verdana; -fx-font-size: 16;" text="Inventory" textAlignment="CENTER" textFill="WHITE">
+               <padding>
+                  <Insets left="50.0" right="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="employeeButton" defaultButton="true" layoutX="13.0" layoutY="277.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleEmployeeButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: verdana; -fx-font-size: 16;" text="Employee" textFill="WHITE">
+               <padding>
+                  <Insets left="50.0" right="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="pricingButton" defaultButton="true" layoutX="13.0" layoutY="321.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePricingButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: verdana; -fx-font-size: 16;" text="Ticket Pricing" textFill="WHITE">
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </Button>
+            <Button fx:id="revenueButton" defaultButton="true" layoutX="13.0" layoutY="365.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleRevenueButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: verdana; -fx-font-size: 16;" text="Revenue Reports" textFill="WHITE">
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </Button>
+            <Label layoutX="58.0" layoutY="174.0" text="Manager Menu" textFill="#009ef7">
+               <font>
+                  <Font name="Tahoma Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <Label layoutX="14.0" layoutY="104.0" text="Cinema Center" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="56.0" layoutY="66.0" text="Group 15" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="737.0" text="User Profile" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="nameSurnameLabel" layoutX="144.0" layoutY="820.0" text="Name-surname" textFill="WHITE">
+               <font>
+                  <Font name="Verdana" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="RoleLabel" layoutX="144.0" layoutY="843.0" text="Role" textFill="WHITE">
+               <font>
+                  <Font name="Verdana" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="18.0" layoutY="793.0" text="Username" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="817.0" text="Name Surname" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="842.0" text="Role" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="usernameLabel" layoutX="146.0" layoutY="795.0" text="Username" textFill="WHITE">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="closeButton" layoutX="15.0" layoutY="960.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #dd2020; -fx-font: verdana; -fx-font-weight: bold; -fx-font-size: 16;" text="Logout" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets bottom="3.0" />
+               </padding>
+            </Button>
+         </children>
+      </Pane>
+      <Pane layoutY="940.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="1920.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Label layoutX="896.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="© Copyright 2025 Group 15 Cinema Center" textFill="WHITE">
+               <font>
+                  <Font name="Yu Gothic Medium" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</Pane>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group15.controllers.CashierController">
+   <children>
+      <Label layoutX="233.0" layoutY="9.0" text="Cinema Center" textFill="#ff7e1b">
+         <font>
+            <Font name="Tahoma Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="closeButton" layoutX="527.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: #dd2020;" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="239.0" layoutY="18.0" text="Cashier Menu" textFill="#ff7e1b">
+         <font>
+            <Font name="Tahoma Bold" size="18.0" />
+         </font>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </Label>
+      <Label layoutX="224.0" layoutY="371.0" text="© Group 15 Cinema Center" textFill="#cdcdcd">
+         <font>
+            <Font name="Yu Gothic Medium" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="usernameLabel" layoutX="530.0" layoutY="46.0" text="Username" textFill="WHITE">
+         <font>
+            <Font name="Tahoma" size="12.0" />
+         </font>
+      </Label>
+      <TextField layoutX="29.0" layoutY="95.0" prefHeight="25.0" prefWidth="456.0" promptText="Search for movie name" />
+      <ComboBox layoutX="494.0" layoutY="95.0" prefHeight="25.0" prefWidth="80.0" promptText="Genre" />
+      <TableView layoutX="29.0" layoutY="132.0" prefHeight="200.0" prefWidth="544.0">
+        <columns>
+          <TableColumn prefWidth="58.0" text="Movie ID" />
+          <TableColumn prefWidth="215.0" text="Title" />
+            <TableColumn minWidth="0.0" prefWidth="47.0" text="Genre" />
+            <TableColumn prefWidth="192.0" text="Summary" />
+            <TableColumn prefWidth="31.0" text="Tick" />
+        </columns>
+      </TableView>
+      <Button defaultButton="true" layoutX="399.0" layoutY="342.0" minHeight="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="174.0" style="-fx-background-color: green; -fx-font-weight: bold;" text="Continue" textFill="WHITE">
+         <padding>
+            <Insets bottom="5.0" left="60.0" right="60.0" top="5.0" />
+         </padding>
+      </Button>
+   </children>
+</Pane>
