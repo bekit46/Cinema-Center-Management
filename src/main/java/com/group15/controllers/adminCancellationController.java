@@ -1,20 +1,46 @@
 package com.group15.controllers;
-
+import com.group15.Facade;
+import com.group15.Movie;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
+import com.group15.Transaction;
 import com.group15.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 
-public class AdminController {
-
+public class adminCancellationController {
+    @FXML
+    private TableView<Transaction> transactionTable;
+    @FXML
+    private TableColumn<Transaction, String> nameColumn;
+    @FXML
+    private TableColumn<Transaction, String> surnameColumn;
+    @FXML
+    private TableColumn<Transaction, Date> dateColumn;
+    @FXML
+    private TableColumn<Transaction, String> movieTitleColumn;
+    @FXML
+    private TableColumn<Transaction, Integer> seatQuantityColumn;
+    @FXML
+    private TableColumn<Transaction, String> detailsColumn;
+    @FXML
+    private TableColumn<Transaction, Integer> costColumn;
+    @FXML
+    private TextField nameBox;
+    @FXML
+    private TextField surnameBox;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -22,15 +48,24 @@ public class AdminController {
     @FXML
     private Label roleLabel;
     @FXML
-    private Button closeButton; // Correct type for closeButton
+    private Button closeButton;
+    @FXML
+    private Button saveButton;// Correct type for closeButton
     @FXML
     private Button movieManagementButton;
     @FXML
     private Button monthlyScheduleButton;
     @FXML
     private Button cancellationButton;
+    @FXML
+    private DatePicker datePicker;
 
     private User user;
+    private Facade facade;
+
+    public adminCancellationController() {
+        this.facade = new Facade();// Initialize the list
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -38,6 +73,53 @@ public class AdminController {
         usernameLabel.setText(user.getUsername());
         nameSurnameLabel.setText(user.getName() + " " + user.getSurname());
         roleLabel.setText(user.getRole());
+    }
+
+    @FXML
+    public void initialize(){
+        // Set up table columns
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("customerSurname"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        movieTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        seatQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("seatQuantity"));
+        detailsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDetails()));
+        costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+
+        // Load all transactions initially
+        loadTransactions(null, null, null);
+        // Add listeners to dynamically reload data when filters are applied
+        nameBox.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        surnameBox.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+    }
+
+    private void loadTransactions(String name, String surname, LocalDate date) {
+        ObservableList<Transaction> transactions;
+
+        if (name == null && surname == null && date == null) {
+            // Fetch all transactions if no filters are applied
+            transactions = FXCollections.observableArrayList(facade.getAllTransactions());
+        } else {
+            // Fetch filtered transactions
+            transactions = FXCollections.observableArrayList(facade.getFilteredTransactions(name, surname, date));
+        }
+
+        // Update the table with the fetched data
+        transactionTable.setItems(transactions);
+    }
+
+
+    private void applyFilters() {
+        String name = nameBox.getText().trim();
+        String surname = surnameBox.getText().trim();
+        LocalDate date = datePicker.getValue();
+
+        loadTransactions(
+                name.isEmpty() ? null : name,
+                surname.isEmpty() ? null : surname,
+                date
+        );
     }
 
     @FXML
@@ -134,6 +216,23 @@ public class AdminController {
             e.printStackTrace();
             // Handle the exception (e.g., show an error message)
         }
+    }
+
+    public void handleSaveButton() throws IOException {
+
+        // Load the admin menu scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/group15/adminMenuGUI.fxml"));
+        Parent adminMenuRoot = loader.load();
+
+        // Get the admin controller and pass the user object
+        AdminController adminController = loader.getController();
+        adminController.setUser(user);
+
+        // Set the admin menu scene on the current stage
+        Stage currentStage = (Stage) saveButton.getScene().getWindow();
+        currentStage.setScene(new Scene(adminMenuRoot));
+        makeStageFillScreen(currentStage);
+        currentStage.show();
     }
 
     public void makeStageFillScreen(Stage stage) {

@@ -2,6 +2,7 @@ package com.group15;
 
 public class Movie {
     private int movieId;
+    private String poster;
     private String title;
     private String genre;
     private String summary;
@@ -13,8 +14,9 @@ public class Movie {
     public Movie() {}
 
     // Parameterized constructor
-    public Movie(int movieId, String title, String genre, String summary,int price, int discount, int tax) {
+    public Movie(int movieId, String poster, String title, String genre, String summary,int price, int discount, int tax) {
         this.movieId = movieId;
+        this.poster = poster;
         this.title = title;
         this.genre = genre;
         this.summary = summary;
@@ -46,4 +48,7 @@ public class Movie {
     public void setTax(int tax) {
         if(tax >= 0)
             this.tax = tax;}
+
+    public String getPoster() {return poster;}
+    public void setPoster(String poster){this.poster = poster;}
 }

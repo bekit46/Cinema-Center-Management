@@ -82,7 +82,7 @@ public class EmployeeController {
             MenuItem deleteItem = new MenuItem("Delete User");
             deleteItem.setOnAction(event -> {
                 User selectedUser = row.getItem();
-                if (selectedUser != null && selectedUser.getUserId() != this.user.getUserId()) {
+                if (selectedUser != null && selectedUser.getUserId() != this.user.getUserId() && selectedUser.getUserId() != 0) {
                     // Remove the user from the database
                     facade.deleteUser(selectedUser.getUserId());
                     // Remove the user from the table's observable list
@@ -123,16 +123,10 @@ public class EmployeeController {
             String newUsername = event.getNewValue();
             user.setUsername(newUsername);
             // Check if this is the placeholder row
-            if (user.getUserId() == 0 && user.getUsername().isEmpty()) {
-                // New employee detected
-                facade.addNewUser(user); // Add the new user to the database
-                refreshTableWithPlaceholder(); // Refresh the table with a new placeholder row
-            } else if (user.getUserId() != 0){
-                // Update existing user
-                if (!modifiedUsers.contains(user)) {
-                    modifiedUsers.add(user);
-                }
+            if (!modifiedUsers.contains(user)) {
+                modifiedUsers.add(user);
             }
+            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -142,16 +136,10 @@ public class EmployeeController {
             String newName = event.getNewValue();
             user.setName(newName);
             // Check if this is the placeholder row
-            if (user.getUserId() == 0 && user.getName().isEmpty()) {
-                // New employee detected
-                facade.addNewUser(user); // Add the new user to the database
-                refreshTableWithPlaceholder(); // Refresh the table with a new placeholder row
-            } else if (user.getUserId() != 0){
-                // Update existing user
-                if (!modifiedUsers.contains(user)) {
-                    modifiedUsers.add(user);
-                }
+            if (!modifiedUsers.contains(user)) {
+                modifiedUsers.add(user);
             }
+            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -161,16 +149,10 @@ public class EmployeeController {
             String newSurname = event.getNewValue();
             user.setSurname(newSurname);
             // Check if this is the placeholder row
-            if (user.getUserId() == 0 && user.getSurname().isEmpty()) {
-                // New employee detected
-                facade.addNewUser(user); // Add the new user to the database
-                refreshTableWithPlaceholder(); // Refresh the table with a new placeholder row
-            } else if (user.getUserId() != 0){
-                // Update existing user
-                if (!modifiedUsers.contains(user)) {
-                    modifiedUsers.add(user);
-                }
+            if (!modifiedUsers.contains(user)) {
+                modifiedUsers.add(user);
             }
+            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -180,16 +162,10 @@ public class EmployeeController {
             String newRole = event.getNewValue();
             user.setRole(newRole);
             // Check if this is the placeholder row
-            if (user.getUserId() == 0 && user.getRole().isEmpty()) {
-                // New employee detected
-                facade.addNewUser(user); // Add the new user to the database
-                refreshTableWithPlaceholder(); // Refresh the table with a new placeholder row
-            } else if (user.getUserId() != 0){
-                // Update existing user
-                if (!modifiedUsers.contains(user)) {
-                    modifiedUsers.add(user);
-                }
+            if (!modifiedUsers.contains(user)) {
+                modifiedUsers.add(user);
             }
+            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -199,16 +175,10 @@ public class EmployeeController {
             String newPassword = event.getNewValue();
             user.setPassword(newPassword);
             // Check if this is the placeholder row
-            if (user.getUserId() == 0 && user.getPassword().isEmpty()) {
-                // New employee detected
-                facade.addNewUser(user); // Add the new user to the database
-                refreshTableWithPlaceholder(); // Refresh the table with a new placeholder row
-            } else if (user.getUserId() != 0){
-                // Update existing user
-                if (!modifiedUsers.contains(user)) {
-                    modifiedUsers.add(user);
-                }
+            if (!modifiedUsers.contains(user)) {
+                modifiedUsers.add(user);
             }
+            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
     }
@@ -262,6 +232,9 @@ public class EmployeeController {
             for (User modifiedUser : modifiedUsers) {
                 if (modifiedUser.getUserId() != 0) { // Ensure it's not a placeholder
                     facade.updateUser(modifiedUser);
+                }
+                else {
+                    facade.addNewUser(modifiedUser);
                 }
             }
             // Optionally, clear the modified list after saving

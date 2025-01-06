@@ -3,12 +3,18 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="1030.0" prefWidth="1870.0" style="-fx-background-color: f7f7f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group15.controllers.AdminController">
+<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1870.0" style="-fx-background-color: f7f7f7;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group15.controllers.adminMonthlyScheduleController">
    <children>
+      <Pane layoutX="1320.0" layoutY="190.0" prefHeight="592.0" prefWidth="494.0" style="-fx-background-color: #12202C; -fx-background-radius: 12;" />
       <Pane layoutY="-50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="250.0" style="-fx-background-color: #12202C;">
          <children>
             <Button fx:id="movieManagementButton" defaultButton="true" layoutX="13.0" layoutY="235.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleMovieManagementButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font-size: 16;" text="Movie Management" textFill="WHITE">
@@ -23,13 +29,16 @@
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
             </Button>
             <Button fx:id="cancellationButton" defaultButton="true" layoutX="13.0" layoutY="321.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleCancellationButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font-size: 16;" text="Cancellations Processes" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
                <padding>
-                  <Insets bottom="1.0" />
+                  <Insets bottom="1.0" left="10.0" right="10.0" />
                </padding>
             </Button>
             <Button fx:id="closeButton" layoutX="15.0" layoutY="960.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #dd2020; -fx-font-size: 16; -fx-font-weight: bold;" text="Logout" textFill="WHITE">
@@ -104,5 +113,63 @@
             </Label>
          </children>
       </Pane>
+      <TableView fx:id="scheduleTable" layoutX="310.0" layoutY="190.0" prefHeight="600.0" prefWidth="878.0" style="-fx-background-color: #12202C;">
+        <columns>
+          <TableColumn fx:id="dateColumn" prefWidth="143.20001220703125" text="Date" style="-fx-font-size: 16px;"/>
+          <TableColumn fx:id="timeColumn" prefWidth="106.4000244140625" text="Time" style="-fx-font-size: 16px;"/>
+            <TableColumn fx:id="hallColumn" prefWidth="110.400146484375" text="Hall" style="-fx-font-size: 16px;"/>
+            <TableColumn fx:id="titleColumn" prefWidth="433.0" text="Movie title" style="-fx-font-size: 16px;"/>
+            <TableColumn fx:id="soldTicketColumn" prefWidth="82.0" text="Sold Ticket" style="-fx-font-size: 16px;"/>
+        </columns>
+      </TableView>
+      <Label layoutX="310.0" layoutY="90.0" prefHeight="43.0" prefWidth="250.0" text="Monthly Schedule" textFill="#12202c">
+         <font>
+            <Font name="Tahoma Bold" size="27.0" />
+         </font>
+      </Label>
+      <Button fx:id="saveButton" layoutX="1563.0" layoutY="795.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font-size: 16;" text="Back to Menu" textFill="WHITE">
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </Button>
+      <DatePicker fx:id="datePickerFilter" layoutX="310.0" layoutY="146.0" onAction="#handleDatePickerAction" prefHeight="25.0" prefWidth="202.0" promptText="Filter Date" style="-fx-font-size: 16px;"/>
+      <Button fx:id="addScheduleButton" layoutX="1370.0" layoutY="599.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddScheduleButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font-size: 16;" text="Add a Schedule" textFill="WHITE">
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </Button>
+      <Label layoutX="1320.0" layoutY="85.0" prefHeight="43.0" prefWidth="327.0" text="Add Movie to Schedule" textFill="#12202c">
+         <font>
+            <Font name="Tahoma Bold" size="27.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="radioButtonB" layoutX="1711.0" layoutY="541.0" mnemonicParsing="false" text="B" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="radioButtonA" layoutX="1567.0" layoutY="541.0" mnemonicParsing="false" text="A" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+      <ChoiceBox fx:id="timeChoiceBox" layoutX="1564.0" layoutY="372.0" prefHeight="52.0" prefWidth="206.0" />
+      <DatePicker fx:id="datePickerAdd" layoutX="1370.0" layoutY="269.0" prefHeight="50.0" prefWidth="400.0" promptText="Select a Date" />
+      <ChoiceBox fx:id="movieChoiceBox" layoutX="1564.0" layoutY="462.0" prefHeight="52.0" prefWidth="206.0" />
+      <Label layoutX="1370.0" layoutY="381.0" text="Select a Time:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="1370.0" layoutY="471.0" text="Select a Movie:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="1370.0" layoutY="541.0" text="Select a Hall:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

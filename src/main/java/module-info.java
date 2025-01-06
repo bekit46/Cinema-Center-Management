@@ -11,6 +11,7 @@ module com.group15.project_3 {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.group15 to javafx.fxml;
     exports com.group15;
