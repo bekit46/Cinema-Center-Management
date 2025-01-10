@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -112,5 +113,6 @@
             </Label>
          </children>
       </Pane>
+      <ImageView fx:id="mainMenu" fitHeight="940.0" fitWidth="1684.0" layoutX="250.0" pickOnBounds="true" />
    </children>
 </Pane>

@@ -8,10 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+
 
 public class AdminController {
 
@@ -29,6 +32,8 @@ public class AdminController {
     private Button monthlyScheduleButton;
     @FXML
     private Button cancellationButton;
+    @FXML
+    private ImageView mainMenu;
 
     private User user;
 
@@ -38,6 +43,13 @@ public class AdminController {
         usernameLabel.setText(user.getUsername());
         nameSurnameLabel.setText(user.getName() + " " + user.getSurname());
         roleLabel.setText(user.getRole());
+    }
+
+    @FXML
+    public void initialize() {
+        // Load the image resource from the classpath
+        Image image = new Image(getClass().getResource("/images/extra/mainMenu.png").toExternalForm());
+        mainMenu.setImage(image);
     }
 
     @FXML

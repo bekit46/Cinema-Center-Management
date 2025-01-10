@@ -35,19 +35,11 @@ public class Movie {
     public String getSummary() { return summary;}
     public void setSummary(String summary) {this.summary = summary;}
     public int getPrice() { return price;}
-    public void setPrice(int price) {
-        if(price >= 0)
-            this.price = price;
-    }
+    public void setPrice(int price) {this.price = price;}
     public int getDiscount() { return discount;}
-    public void setDiscount(int discount) {
-        if(discount >= 0)
-            this.discount = discount;
-    }
+    public void setDiscount(int discount) {this.discount = discount;}
     public int getTax() { return tax;}
-    public void setTax(int tax) {
-        if(tax >= 0)
-            this.tax = tax;}
+    public void setTax(int tax) {this.tax = tax;}
 
     public String getPoster() {return poster;}
     public void setPoster(String poster){this.poster = poster;}

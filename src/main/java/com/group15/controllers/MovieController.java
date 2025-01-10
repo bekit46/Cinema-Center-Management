@@ -95,10 +95,15 @@ public class MovieController {
         priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         priceColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
-            movie.setPrice(event.getNewValue());
-            // Track the modified movie
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            int newPrice = event.getNewValue();
+            if(newPrice < 0)
+                showAlert("Error", "Ticket price can not be negative");
+            else{
+                movie.setPrice(newPrice);
+                // Track the modified movie
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
             }
             movieTable.refresh();
         });
@@ -106,10 +111,15 @@ public class MovieController {
         discountColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         discountColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
-            movie.setDiscount(event.getNewValue());
-            // Track the modified movie
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            int newDiscount = event.getNewValue();
+            if(newDiscount < 0 || newDiscount > 100)
+                showAlert("Error", "Discount rate should be between %0 and %100.");
+            else{
+                movie.setDiscount(newDiscount);
+                // Track the modified movie
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
             }
             movieTable.refresh();
         });
@@ -117,10 +127,15 @@ public class MovieController {
         taxColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         taxColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
-            movie.setTax(event.getNewValue());
-            // Track the modified movie
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            int newTax = event.getNewValue();
+            if(newTax < 0 || newTax > 100)
+                showAlert("Error", "Tax rate should be between %0 and %100.");
+            else{
+                movie.setTax(newTax);
+                // Track the modified movie
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
             }
             movieTable.refresh();
         });
@@ -286,5 +301,23 @@ public class MovieController {
         stage.setY(screenBounds.getMinY());
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
+    }
+
+    public void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+
+        // Create custom content
+        Label content = new Label(message);
+        content.setWrapText(true);
+        content.setStyle("-fx-font-size: 18px;");
+
+        // Set the custom content
+        alert.getDialogPane().setContent(content);
+
+        // Set a specific rectangular size for the alert
+        alert.getDialogPane().setPrefSize(400, 200); // Width: 400, Height: 200
+
+        alert.showAndWait();
     }
 }

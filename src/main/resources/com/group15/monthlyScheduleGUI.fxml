@@ -115,11 +115,11 @@
       </Pane>
       <TableView fx:id="scheduleTable" layoutX="310.0" layoutY="190.0" prefHeight="600.0" prefWidth="878.0" style="-fx-background-color: #12202C;">
         <columns>
-          <TableColumn fx:id="dateColumn" prefWidth="143.20001220703125" text="Date" style="-fx-font-size: 16px;"/>
-          <TableColumn fx:id="timeColumn" prefWidth="106.4000244140625" text="Time" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="hallColumn" prefWidth="110.400146484375" text="Hall" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="titleColumn" prefWidth="433.0" text="Movie title" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="soldTicketColumn" prefWidth="82.0" text="Sold Ticket" style="-fx-font-size: 16px;"/>
+          <TableColumn fx:id="dateColumn" prefWidth="130.0" style="-fx-font-size: 16px;" text="Date" />
+          <TableColumn fx:id="timeColumn" prefWidth="106.0" style="-fx-font-size: 16px;" text="Time" />
+            <TableColumn fx:id="hallColumn" prefWidth="104.0" style="-fx-font-size: 16px;" text="Hall" />
+            <TableColumn fx:id="titleColumn" prefWidth="433.0" style="-fx-font-size: 16px;" text="Movie title" />
+            <TableColumn fx:id="soldTicketColumn" prefWidth="104.0" style="-fx-font-size: 16px;" text="Sold Ticket" />
         </columns>
       </TableView>
       <Label layoutX="310.0" layoutY="90.0" prefHeight="43.0" prefWidth="250.0" text="Monthly Schedule" textFill="#12202c">
@@ -132,7 +132,7 @@
             <Insets left="30.0" right="30.0" />
          </padding>
       </Button>
-      <DatePicker fx:id="datePickerFilter" layoutX="310.0" layoutY="146.0" onAction="#handleDatePickerAction" prefHeight="25.0" prefWidth="202.0" promptText="Filter Date" style="-fx-font-size: 16px;"/>
+      <DatePicker fx:id="datePickerFilter" layoutX="310.0" layoutY="146.0" onAction="#handleDatePickerAction" prefHeight="25.0" prefWidth="202.0" promptText="Filter Date" style="-fx-font-size: 16px;" />
       <Button fx:id="addScheduleButton" layoutX="1370.0" layoutY="599.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddScheduleButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font-size: 16;" text="Add a Schedule" textFill="WHITE">
          <padding>
             <Insets left="30.0" right="30.0" />

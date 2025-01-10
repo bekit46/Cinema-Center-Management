@@ -2,6 +2,7 @@ package com.group15.controllers;
 
 import com.group15.Facade;
 import com.group15.Movie;
+import com.group15.Schedule;
 import com.group15.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class adminMovieManagementController {
     @FXML
@@ -66,7 +68,7 @@ public class adminMovieManagementController {
     }
 
     @FXML
-    private void initialize(){ //HERE IS GRAY COLOURED IT SHOULD BE BLUE
+    private void initialize(){
         // Add context menu for deletion
         movieTable.setRowFactory(tv -> {
             TableRow<Movie> row = new TableRow<>();
@@ -74,11 +76,17 @@ public class adminMovieManagementController {
             MenuItem deleteItem = new MenuItem("Delete Movie");
             deleteItem.setOnAction(event -> {
                 Movie selectedMovie = row.getItem();
-                if (selectedMovie != null) {
+                List<Schedule> schedules = facade.getSchedulesByMovieId(selectedMovie.getMovieId());
+                // Check if any schedule has taken seats
+                boolean hasTakenSeats = schedules.stream().anyMatch(schedule -> schedule.getTakenSeats() > 0);
+                if (!hasTakenSeats) {
                     // Remove the movie from the database
                     facade.deleteMovie(selectedMovie.getMovieId());
+                    showAlert("Success", "Movie deleted successfully.");
                     // Remove the movie from the table's observable list
                     movieTable.getItems().remove(selectedMovie);
+                } else {
+                    showAlert("Error", "Movie cannot be deleted because it has a schedule with taken seats.");
                 }
             });
             contextMenu.getItems().add(deleteItem);
@@ -109,12 +117,16 @@ public class adminMovieManagementController {
         posterColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
             String newPoster = event.getNewValue();
-            movie.setPoster(newPoster);
-            // Check if this is the placeholder row
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            if(newPoster.isEmpty())
+                showAlert("Error", "Poster path can not be empty.");
+            else{
+                movie.setPoster(newPoster);
+                // Check if this is the placeholder row
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             movieTable.refresh();
         });
 
@@ -122,12 +134,16 @@ public class adminMovieManagementController {
         titleColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
             String newTitle = event.getNewValue();
-            movie.setTitle(newTitle);
-            // Check if this is the placeholder row
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            if(newTitle.isEmpty())
+                showAlert("Error", "Movie title can not be empty.");
+            else{
+                movie.setTitle(newTitle);
+                // Check if this is the placeholder row
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             movieTable.refresh();
         });
 
@@ -135,12 +151,16 @@ public class adminMovieManagementController {
         genreColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
             String newGenre = event.getNewValue();
-            movie.setGenre(newGenre);
-            // Check if this is the placeholder row
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            if(newGenre.isEmpty())
+                showAlert("Error", "Movie genre can not be empty.");
+            else{
+                movie.setGenre(newGenre);
+                // Check if this is the placeholder row
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             movieTable.refresh();
         });
 
@@ -148,12 +168,16 @@ public class adminMovieManagementController {
         summaryColumn.setOnEditCommit(event -> {
             Movie movie = event.getRowValue();
             String newSummary = event.getNewValue();
-            movie.setSummary(newSummary);
-            // Check if this is the placeholder row
-            if (!modifiedMovies.contains(movie)) {
-                modifiedMovies.add(movie);
+            if(newSummary.isEmpty())
+                showAlert("Error", "Movie summary can not be empty.");
+            else{
+                movie.setSummary(newSummary);
+                // Check if this is the placeholder row
+                if (!modifiedMovies.contains(movie)) {
+                    modifiedMovies.add(movie);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             movieTable.refresh();
         });
     }
@@ -314,5 +338,23 @@ public class adminMovieManagementController {
         stage.setY(screenBounds.getMinY());
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
+    }
+
+    public void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+
+        // Create custom content
+        Label content = new Label(message);
+        content.setWrapText(true);
+        content.setStyle("-fx-font-size: 18px;");
+
+        // Set the custom content
+        alert.getDialogPane().setContent(content);
+
+        // Set a specific rectangular size for the alert
+        alert.getDialogPane().setPrefSize(400, 200); // Width: 400, Height: 200
+
+        alert.showAndWait();
     }
 }

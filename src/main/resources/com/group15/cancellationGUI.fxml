@@ -113,16 +113,16 @@
       </Pane>
       <TableView fx:id="transactionTable" layoutX="310.0" layoutY="190.0" prefHeight="600.0" prefWidth="1500.0" style="-fx-background-color: #12202C;">
          <columns>
-            <TableColumn fx:id="nameColumn" prefWidth="136.0" text="Name" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="surnameColumn" prefWidth="138.0" text="Surname" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="dateColumn" prefWidth="123.0" text="Date" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="movieTitleColumn" prefWidth="352.0" text="Movie title" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="seatQuantityColumn" prefWidth="87.0" text="Seat Quantity" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="detailsColumn" prefWidth="664.0" text="Details" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="costColumn" prefWidth="74.0" text="Cost" style="-fx-font-size: 16px;"/>
+            <TableColumn fx:id="nameColumn" prefWidth="136.0" style="-fx-font-size: 16px;" text="Name" />
+            <TableColumn fx:id="surnameColumn" prefWidth="138.0" style="-fx-font-size: 16px;" text="Surname" />
+            <TableColumn fx:id="dateColumn" prefWidth="123.0" style="-fx-font-size: 16px;" text="Date" />
+            <TableColumn fx:id="movieTitleColumn" prefWidth="352.0" style="-fx-font-size: 16px;" text="Movie title" />
+            <TableColumn fx:id="seatQuantityColumn" prefWidth="116.0" style="-fx-font-size: 16px;" text="Seat Quantity" />
+            <TableColumn fx:id="detailsColumn" prefWidth="518.0" style="-fx-font-size: 16px;" text="Details" />
+            <TableColumn fx:id="costColumn" prefWidth="116.0" style="-fx-font-size: 16px;" text="Cost" />
          </columns>
       </TableView>
-      <TextField fx:id="nameBox" layoutX="310.0" layoutY="146.0" prefHeight="25.0" prefWidth="131.0" promptText="Enter Name" style="-fx-font-size: 16px;"/>
+      <TextField fx:id="nameBox" layoutX="310.0" layoutY="146.0" prefHeight="25.0" prefWidth="131.0" promptText="Enter Name" style="-fx-font-size: 16px;" />
       <Label layoutX="310.0" layoutY="90.0" prefHeight="43.0" prefWidth="342.0" text="Cancellations Processes" textFill="#12202c">
          <font>
             <Font name="Tahoma Bold" size="27.0" />
@@ -133,7 +133,7 @@
             <Insets left="30.0" right="30.0" />
          </padding>
       </Button>
-      <TextField fx:id="surnameBox" layoutX="453.0" layoutY="146.0" prefHeight="25.0" prefWidth="131.0" promptText="Enter Surname" style="-fx-font-size: 16px;"/>
-      <DatePicker fx:id="datePicker" layoutX="589.0" layoutY="146.0" prefHeight="25.0" prefWidth="145.0" promptText="Select Date" style="-fx-font-size: 16px;"/>
+      <TextField fx:id="surnameBox" layoutX="453.0" layoutY="146.0" prefHeight="25.0" prefWidth="131.0" promptText="Enter Surname" style="-fx-font-size: 16px;" />
+      <DatePicker fx:id="datePicker" layoutX="589.0" layoutY="146.0" prefHeight="25.0" prefWidth="145.0" promptText="Select Date" style="-fx-font-size: 16px;" />
    </children>
 </Pane>

@@ -33,13 +33,7 @@ public class User {
     public String getSurname() { return surname;}
     public void setSurname(String surname) {this.surname = surname;}
     public String getPassword() { return password;}
-    public void setPassword(String password) {
-        if(password.length() >= 4)
-            this.password = password;
-    }
+    public void setPassword(String password) {this.password = password;}
     public String getRole() {return role;}
-    public void setRole(String role) {
-        if(Objects.equals(role, "manager") || Objects.equals(role, "admin") || Objects.equals(role, "cashier"))
-            this.role = role;
-    }
+    public void setRole(String role) {this.role = role;}
 }

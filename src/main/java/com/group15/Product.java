@@ -33,23 +33,15 @@ public class Product {
     public StringProperty nameProperty() { return productName; }
 
     public double getPrice() { return price.get(); }
-    public void setPrice(double price) {
-        if(price >= 0)
-            this.price.set(price);
-    }
+    public void setPrice(double price) {this.price.set(price);}
     public DoubleProperty priceProperty() { return price; }
 
     public int getStockQuantity() { return stockQuantity.get(); }
-    public void setStockQuantity(int stockQuantity) {
-        if(stockQuantity >= 0)
-            this.stockQuantity.set(stockQuantity);
-    }
+    public void setStockQuantity(int stockQuantity) {this.stockQuantity.set(stockQuantity);}
     public IntegerProperty stockQuantityProperty() { return stockQuantity; }
 
     public int getTax() { return tax.get(); }
-    public void setTax(int tax) {
-        if(tax >= 0)
-            this.tax.set(tax);
-    }
+    public void setTax(int tax) {this.tax.set(tax);}
+
     public IntegerProperty taxProperty() { return tax; }
 }

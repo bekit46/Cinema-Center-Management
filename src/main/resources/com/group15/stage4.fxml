@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1870.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group15.controllers.stage4Controller">
+   <children>
+      <Pane layoutX="1450.0" prefHeight="1030.0" prefWidth="470.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Label alignment="CENTER" layoutY="-2.0" prefWidth="470.0" style="-fx-font-size: 70;" text="Shopping" textFill="WHITE" />
+            <Label alignment="CENTER" layoutY="87.0" prefWidth="470.0" style="-fx-font-size: 70;" text="Cart" textFill="WHITE" />
+            <Button fx:id="ButtonNext" layoutX="245.0" layoutY="830.0" mnemonicParsing="false" onAction="#NextScreen" prefHeight="60.0" prefWidth="210.0" style="-fx-background-color: #009EF7; -fx-font-size: 25; -fx-font-weight: bold;" text="Next" />
+            <Button layoutX="15.0" layoutY="830.0" mnemonicParsing="false" onAction="#Back" prefHeight="60.0" prefWidth="210.0" style="-fx-background-color: #009EF7; -fx-font-size: 25; -fx-font-weight: bold;" text="Back" />
+            <TextArea fx:id="cart" editable="false" layoutX="15.0" layoutY="202.0" prefHeight="606.0" prefWidth="440.0" style="-fx-font-size: 20px;" />
+         </children>
+      </Pane>
+      <Pane layoutX="38.0" layoutY="46.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label alignment="CENTER" layoutY="153.0" prefWidth="200.0" text="Cashier Menu" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="940.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="1920.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Label layoutX="896.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="© Copyright 2025 Group 15 Cinema Center" textFill="WHITE">
+               <font>
+                  <Font name="Yu Gothic Medium" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="450.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="glassesImage" fitHeight="144.0" fitWidth="146.0" layoutX="17.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="725.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="waterImage" fitHeight="164.0" fitWidth="160.0" layoutX="23.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="1000.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="candyImage" fitHeight="164.0" fitWidth="160.0" layoutX="21.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="450.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="chipsImage" fitHeight="164.0" fitWidth="160.0" layoutX="18.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="725.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="colaImage" fitHeight="121.0" fitWidth="120.0" layoutX="23.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="1000.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="hotdogImage" fitHeight="164.0" fitWidth="160.0" layoutX="34.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="450.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="icecreamImage" fitHeight="164.0" fitWidth="160.0" layoutX="42.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="725.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="popcornImage" fitHeight="164.0" fitWidth="160.0" layoutX="15.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="1000.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+         <children>
+            <ImageView fx:id="spriteImage" fitHeight="164.0" fitWidth="160.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Spinner fx:id="spinner3" layoutX="1090.0" layoutY="375.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner2" layoutX="815.0" layoutY="375.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner1" layoutX="540.0" layoutY="375.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner6" layoutX="1090.0" layoutY="625.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner5" layoutX="815.0" layoutY="625.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner4" layoutX="540.0" layoutY="625.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner9" layoutX="1090.0" layoutY="875.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner8" layoutX="815.0" layoutY="875.0" prefHeight="30.0" prefWidth="75.0" />
+      <Spinner fx:id="spinner7" layoutX="540.0" layoutY="875.0" prefHeight="30.0" prefWidth="75.0" />
+      <TextField fx:id="nameAndSurnameField" layoutX="524.0" layoutY="106.0" prefHeight="42.0" prefWidth="258.0" promptText="Enter Name and Surname" style="-fx-font-size: 16;" />
+      <Spinner fx:id="discountTicketsSpinner" layoutX="816.0" layoutY="106.0" prefHeight="42.0" prefWidth="258.0" />
+      <Label layoutX="907.0" layoutY="115.0" text="Discounted Tickets">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="price1" layoutX="450.0" layoutY="375.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 18; -fx-font-family: tahoma; -fx-font-weight: bold;" text="1" />
+      <Label fx:id="price2" layoutX="725.0" layoutY="375.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="2" />
+      <Label fx:id="price3" layoutX="1000.0" layoutY="375.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="3" />
+      <Label fx:id="price4" layoutX="450.0" layoutY="625.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="4" />
+      <Label fx:id="price5" layoutX="725.0" layoutY="625.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="5" />
+      <Label fx:id="price6" layoutX="1000.0" layoutY="625.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="6" />
+      <Label fx:id="price7" layoutX="450.0" layoutY="875.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="7" />
+      <Label fx:id="price8" layoutX="725.0" layoutY="875.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="8" />
+      <Label fx:id="price9" layoutX="1000.0" layoutY="875.0" prefHeight="30.0" prefWidth="85.0" style="-fx-font-family: tahoma; -fx-font-size: 18; -fx-font-weight: bold;" text="9" />
+      <Pane prefHeight="1030.0" prefWidth="275.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Button fx:id="closeButton" layoutX="30.0" layoutY="889.0" mnemonicParsing="false" onAction="#logout" prefHeight="42.0" prefWidth="215.0" style="-fx-background-color: red; -fx-font-size: 20; -fx-font-weight: bold;" text="Logout" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="23.0" layoutY="605.0" prefHeight="83.0" prefWidth="225.0" style="-fx-font-size: 40; -fx-text-fill: white;" text="User Profile" textFill="WHITE" />
+            <Label fx:id="Surname" layoutX="13.0" layoutY="755.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="surname:" textFill="WHITE" />
+            <Label fx:id="Name" layoutX="13.0" layoutY="715.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="name:" textFill="WHITE" />
+            <Label fx:id="Username" layoutX="13.0" layoutY="675.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="User name:" textFill="WHITE" />
+            <Label fx:id="Role" layoutX="13.0" layoutY="795.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="role:" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="19.0" layoutY="28.0" prefHeight="83.0" prefWidth="225.0" style="-fx-font-size: 30; -fx-text-fill: white; -fx-font-family: tahoma; -fx-font-weight: bold;" text="Group 15" textFill="WHITE" />
+            <Label alignment="CENTER" layoutY="80.0" prefHeight="83.0" prefWidth="275.0" style="-fx-font-size: 30; -fx-text-fill: white; -fx-font-family: tahoma; -fx-font-weight: bold;" text="Cinema Center" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="-2.0" layoutY="163.0" prefHeight="83.0" prefWidth="275.0" style="-fx-font-size: 30; -fx-text-fill: #009EF7; -fx-font-family: tahoma; -fx-font-weight: bold;" text="Cashier Menu" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</Pane>

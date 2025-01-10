@@ -2,10 +2,11 @@ package com.group15;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinema_center?serverTimezone=Europe/Istanbul";
@@ -87,6 +88,26 @@ public class Facade {
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Product updated successfully.");
+            } else {
+                System.out.println("No product found with the given ID.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error while updating the product: " + e.getMessage(), e);
+        }
+    }
+
+    public void updateStock(int productId, int quantity) {
+        String query = "UPDATE Products SET stock_quantity = stock_quantity - ? WHERE product_id = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Set the parameters for the prepared statement
+            stmt.setInt(1, quantity);
+            stmt.setDouble(2, productId);
+
+            // Execute the update and check the number of affected rows
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Stock updated successfully.");
             } else {
                 System.out.println("No product found with the given ID.");
             }
@@ -196,6 +217,25 @@ public class Facade {
         return revenues;
     }
 
+    public boolean updateRevenue(int newTaxFree, int newTotalTax, int newTotalAmount) {
+        String query = "UPDATE Revenue SET tax_free = tax_free + ?, total_tax = total_tax + ?, total_amount = total_amount + ?";
+        boolean isUpdated = false;
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Set new values
+            stmt.setInt(1, newTaxFree);
+            stmt.setInt(2, newTotalTax);
+            stmt.setInt(3, newTotalAmount);
+
+            // Execute the update
+            int rowsAffected = stmt.executeUpdate();
+            isUpdated = rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
+    }
+
     //####################################### MOVIES FACADE CODES #####################################################################
 
     public List<Movie> getAllMovies() {
@@ -272,6 +312,68 @@ public class Facade {
             e.printStackTrace();
         }
         return movie;  // Return the movie object (it will be null if no result was found)
+    }
+
+    // Method to filter movies by title
+    public List<Movie> filterMoviesByTitle(String title) {
+        String query = "SELECT * FROM Movies WHERE title LIKE ?";
+        List<Movie> movies = new ArrayList<>();
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + title + "%"); // Add wildcards to search for matching titles
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Create a Movie object and add it to the list
+                movies.add(new Movie(
+                        rs.getInt("movie_id"),
+                        rs.getString("poster"),
+                        rs.getString("title"),
+                        rs.getString("genre"),
+                        rs.getString("summary"),
+                        rs.getInt("price"),
+                        rs.getInt("discount"),
+                        rs.getInt("tax")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return movies;
+    }
+
+    // Method to filter movies by genre
+    public List<Movie> filterMoviesByGenre(String genre) {
+        String query = "SELECT * FROM Movies WHERE genre LIKE ?";
+        List<Movie> movies = new ArrayList<>();
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + genre + "%"); // Add wildcards to search for matching genres
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Create a Movie object and add it to the list
+                movies.add(new Movie(
+                        rs.getInt("movie_id"),
+                        rs.getString("poster"),
+                        rs.getString("title"),
+                        rs.getString("genre"),
+                        rs.getString("summary"),
+                        rs.getInt("price"),
+                        rs.getInt("discount"),
+                        rs.getInt("tax")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return movies;
     }
 
 
@@ -379,6 +481,144 @@ public class Facade {
         return schedules;
     }
 
+    public List<Schedule> getSchedules(LocalDate selectedDate, int movieId) {
+        List<Schedule> schedules = new ArrayList<>();
+        String query;
+        // Modified query to join Movies table and filter by date
+        query = "SELECT s.schedule_id, s.fk_movie_id, m.title AS movie_title, s.date, s.session_time, s.hall_name, s.taken_seats, s.seating " +
+                "FROM Schedules s " +
+                "JOIN Movies m ON s.fk_movie_id = m.movie_id " +
+                "WHERE s.date = ? AND s.fk_movie_id = ?";
+
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            if (selectedDate != null) {
+                stmt.setString(1, selectedDate.toString());
+                stmt.setInt(2, movieId);
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int scheduleId = rs.getInt("schedule_id");
+                String movieTitle = rs.getString("movie_title");
+                Date date = rs.getDate("date");
+                Time sessionTime = rs.getTime("session_time");
+                String hall = rs.getString("hall_name");
+                int takenSeats = rs.getInt("taken_seats");
+                String seating = rs.getString("seating");
+
+                // Instantiate the Movie object
+                Movie movie = getMovieById(movieId);
+
+                // Create the Schedule object and associate the Movie
+                Schedule schedule = new Schedule(scheduleId, movieId, date, sessionTime, hall, takenSeats, seating, movie);
+
+                schedules.add(schedule);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return schedules;
+    }
+
+    public String getSeatingById(int scheduleId) {
+        // SQL query to retrieve the seating information for the given schedule_id
+        String query = "SELECT seating FROM Schedules WHERE schedule_id = ?";
+        String seating = null;
+
+        // Try-with-resources to manage database resources
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Set the schedule_id parameter in the query
+            stmt.setInt(1, scheduleId);
+
+            // Execute the query and process the result set
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the seating column value
+                    seating = rs.getString("seating");
+                }
+            }
+        } catch (Exception e) {
+            // Log the exception and handle database errors
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Error fetching seating information for schedule_id: " + scheduleId, e);
+        }
+
+        return seating;
+    }
+
+    public String getHallByScheduleId(int scheduleId) {
+        // SQL query to retrieve the hall information for the given schedule_id
+        String query = "SELECT hall_name FROM Schedules WHERE schedule_id = ?";
+        String hall_name = null;
+
+        // Try-with-resources to manage database resources
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Set the schedule_id parameter in the query
+            stmt.setInt(1, scheduleId);
+
+            // Execute the query and process the result set
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the seating column value
+                    hall_name = rs.getString("hall_name");
+                }
+            }
+        } catch (Exception e) {
+            // Log the exception and handle database errors
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Error fetching hall information for schedule_id: " + scheduleId, e);
+        }
+
+        return hall_name;
+    }
+
+
+    public List<Schedule> getSchedulesByMovieId(int movieId) {
+        String query = "SELECT schedule_id, fk_movie_id, date, session_time, hall_name, taken_seats, seating FROM Schedules WHERE fk_movie_id = ?";
+
+        List<Schedule> schedules = new ArrayList<>();
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, movieId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int scheduleId = rs.getInt("schedule_id");
+                    Date date = rs.getDate("date");
+                    Time sessionTime = rs.getTime("session_time");
+                    String hall = rs.getString("hall_name");
+                    int takenSeats = rs.getInt("taken_seats");
+                    String seating = rs.getString("seating");
+
+                    Movie movie = getMovieById(movieId);
+                    Schedule schedule = new Schedule(scheduleId, movieId, date, sessionTime, hall, takenSeats, seating, movie);
+                    schedules.add(schedule);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return schedules;
+    }
+
+    public boolean checkCollapseInSchedule(Date scheduleDate, Time scheduleTime, String hall) {
+        String query = "SELECT schedule_id FROM Schedules WHERE date = ? AND session_time = ? AND hall_name = ?";
+        boolean collapse = false;
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Set parameters for the query
+            stmt.setDate(1, scheduleDate);
+            stmt.setTime(2, scheduleTime);
+            stmt.setString(3, hall);
+
+            // Execute query and check for a result
+            try (ResultSet rs = stmt.executeQuery()) {
+                collapse = rs.next();
+            }
+        } catch (Exception e) {
+            // Log meaningful error message
+            System.err.println("Error while checking schedule collapse: " + e.getMessage());
+        }
+        return collapse;
+    }
+
 
     public void updateSchedule(Schedule schedule) {
         String query = "UPDATE Schedules SET schedule_id = ?, fk_movie_id = ?, date = ?, session_time = ?, hall_name = ?, taken_seats = ?, seating = ? WHERE schedule_id = ?";
@@ -411,6 +651,22 @@ public class Facade {
         }
     }
 
+    public void updateScheduleSeats(int scheduleId, int soldSeats, String newSeating) {
+        String query = "UPDATE Schedules SET taken_seats = taken_seats + ?, seating = ? WHERE schedule_id = ?";
+
+        try (Connection conn = connect(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, soldSeats);
+            preparedStatement.setString(2, newSeating);
+            preparedStatement.setInt(3, scheduleId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addNewSchedule(Schedule schedule) {
         // Correct SQL query
         String query = "INSERT INTO Schedules (fk_movie_id, date, session_time, hall_name, taken_seats, seating) " +
@@ -419,7 +675,7 @@ public class Facade {
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, schedule.getMovieId());
             // Convert java.util.Date to java.sql.Date
-            java.sql.Date sqlDate = new java.sql.Date(schedule.getDate().getTime());
+            Date sqlDate = new Date(schedule.getDate().getTime());
             stmt.setDate(2, sqlDate); // Convert java.util.Date to java.sql.Date
             stmt.setTime(3, schedule.getSessionTime()); // Use java.sql.Time
             stmt.setString(4, schedule.getHall());
@@ -446,9 +702,11 @@ public class Facade {
 
     public List<Transaction> getAllTransactions() {
         List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_movie_id, " +
+        String query = "SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_schedule_id, " +
                 "t.seat_quantity, t.total_price, t.discount_applied, m.title AS movie_title " +
-                "FROM Transactions t LEFT JOIN Movies m ON t.fk_movie_id = m.movie_id";
+                "FROM Transactions t " +
+                "LEFT JOIN Schedules s ON t.fk_schedule_id = s.schedule_id " +
+                "LEFT JOIN Movies m ON s.fk_movie_id = m.movie_id";
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -456,13 +714,13 @@ public class Facade {
                 String customerName = rs.getString("customer_name");
                 String customerSurname = rs.getString("customer_surname");
                 Date date = rs.getDate("date");
-                int movieId = rs.getInt("fk_movie_id");
+                int scheduleId = rs.getInt("fk_schedule_id");
                 int seatQuantity = rs.getInt("seat_quantity");
                 int totalPrice = rs.getInt("total_price");
                 boolean discountApplied = rs.getBoolean("discount_applied");
                 String movieTitle = rs.getString("movie_title");
 
-                transactions.add(new Transaction(transactionId, customerName, customerSurname, date, movieId, movieTitle, seatQuantity, totalPrice, discountApplied));
+                transactions.add(new Transaction(transactionId, customerName, customerSurname, date, scheduleId, movieTitle, seatQuantity, totalPrice, discountApplied));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -471,9 +729,12 @@ public class Facade {
     }
 
     public Transaction getTransactionById(int transactionId) {
-        String query = "SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_movie_id, " +
+        String query = "SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_schedule_id, " +
                 "t.seat_quantity, t.total_price, t.discount_applied, m.title AS movie_title " +
-                "FROM Transactions t LEFT JOIN Movies m ON t.fk_movie_id = m.movie_id WHERE t.transaction_id = ?";
+                "FROM Transactions t " +
+                "LEFT JOIN Schedules s ON t.fk_schedule_id = s.schedule_id " +
+                "LEFT JOIN Movies m ON s.fk_movie_id = m.movie_id " +
+                "WHERE t.transaction_id = ?";
         Transaction transaction = null;
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -483,13 +744,13 @@ public class Facade {
                     String customerName = rs.getString("customer_name");
                     String customerSurname = rs.getString("customer_surname");
                     Date date = rs.getDate("date");
-                    int movieId = rs.getInt("fk_movie_id");
+                    int scheduleId = rs.getInt("fk_schedule_id");
                     int seatQuantity = rs.getInt("seat_quantity");
                     int totalPrice = rs.getInt("total_price");
                     boolean discountApplied = rs.getBoolean("discount_applied");
                     String movieTitle = rs.getString("movie_title");
 
-                    transaction = new Transaction(transactionId, customerName, customerSurname, date, movieId, movieTitle, seatQuantity, totalPrice, discountApplied);
+                    transaction = new Transaction(transactionId, customerName, customerSurname, date, scheduleId, movieTitle, seatQuantity, totalPrice, discountApplied);
                 }
             }
         } catch (Exception e) {
@@ -498,11 +759,47 @@ public class Facade {
         return transaction;
     }
 
+    public String getTransactionSeatsById(int transactionId) {
+        String query = "SELECT seats FROM Transactions WHERE transaction_id = ?";
+
+        String seats = null;
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, transactionId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    seats = rs.getString("seats");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return seats;
+    }
+
+    public int getTaxById(int transactionId) {
+        String query = "SELECT tax FROM Transactions WHERE transaction_id = ?";
+
+        int tax = 0;
+        try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, transactionId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    tax = rs.getInt("tax");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tax;
+    }
+
     public List<Transaction> getFilteredTransactions(String name, String surname, LocalDate date) {
         List<Transaction> transactions = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_movie_id, " +
+        StringBuilder query = new StringBuilder("SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_schedule_id, " +
                 "t.seat_quantity, t.total_price, t.discount_applied, m.title AS movie_title " +
-                "FROM Transactions t LEFT JOIN Movies m ON t.fk_movie_id = m.movie_id WHERE 1=1");
+                "FROM Transactions t " +
+                "LEFT JOIN Schedules s ON t.fk_schedule_id = s.schedule_id " +
+                "LEFT JOIN Movies m ON s.fk_movie_id = m.movie_id WHERE 1=1");
 
         // List of parameters for the prepared statement
         List<Object> params = new ArrayList<>();
@@ -520,7 +817,7 @@ public class Facade {
 
         if (date != null) {
             query.append(" AND t.date = ?");
-            params.add(java.sql.Date.valueOf(date)); // Convert LocalDate to java.sql.Date
+            params.add(Date.valueOf(date)); // Convert LocalDate to java.sql.Date
         }
 
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query.toString())) {
@@ -535,13 +832,13 @@ public class Facade {
                     String customerName = rs.getString("customer_name");
                     String customerSurname = rs.getString("customer_surname");
                     Date transactionDate = rs.getDate("date");
-                    int movieId = rs.getInt("fk_movie_id");
+                    int scheduleId = rs.getInt("fk_schedule_id");
                     int seatQuantity = rs.getInt("seat_quantity");
                     int totalPrice = rs.getInt("total_price");
                     boolean discountApplied = rs.getBoolean("discount_applied");
                     String movieTitle = rs.getString("movie_title");
 
-                    transactions.add(new Transaction(transactionId, customerName, customerSurname, transactionDate, movieId, movieTitle, seatQuantity, totalPrice, discountApplied));
+                    transactions.add(new Transaction(transactionId, customerName, customerSurname, transactionDate, scheduleId, movieTitle, seatQuantity, totalPrice, discountApplied));
                 }
             }
         } catch (Exception e) {
@@ -551,6 +848,155 @@ public class Facade {
         return transactions;
     }
 
+    public boolean deleteTransactionAndUpdate(Transaction transaction) {
+        try (Connection conn = connect()) {
+            conn.setAutoCommit(false); // Start transaction
+
+            // Step 1: Update revenue table
+            String updateRevenueQueryTaxFree = "UPDATE Revenue SET tax_free = tax_free - ?";
+            try (PreparedStatement revenueStmt = conn.prepareStatement(updateRevenueQueryTaxFree)) {
+                revenueStmt.setInt(1, (transaction.getTotalPrice() - transaction.getTaxById()));
+                revenueStmt.executeUpdate();
+            }
+
+            String updateRevenueQueryTax = "UPDATE Revenue SET total_tax = total_tax - ?";
+            try (PreparedStatement revenueStmt = conn.prepareStatement(updateRevenueQueryTax)) {
+                revenueStmt.setInt(1, transaction.getTaxById());
+                revenueStmt.executeUpdate();
+            }
+
+            String updateRevenueQueryTotal = "UPDATE Revenue SET total_amount = total_amount - ?";
+            try (PreparedStatement revenueStmt = conn.prepareStatement(updateRevenueQueryTotal)) {
+                int minus = transaction.getTotalPrice();
+                revenueStmt.setInt(1, minus);
+                revenueStmt.executeUpdate();
+            }
+
+            // Step 2: Update taken_seats in the schedule
+            String updateTakenSeatsQuery = "UPDATE Schedules SET taken_seats = taken_seats - ? WHERE schedule_id = ?";
+            try (PreparedStatement seatStmt = conn.prepareStatement(updateTakenSeatsQuery)) {
+                seatStmt.setInt(1, transaction.getSeatQuantity());
+                seatStmt.setInt(2, transaction.getScheduleId());
+                seatStmt.executeUpdate();
+            }
+
+            // Step 3: Update available seats in the schedule
+            String updateSeatingQuery = "UPDATE Schedules SET seating = ? WHERE schedule_id = ?";
+            String seating = getSeatingById(transaction.getScheduleId());
+            List<Integer> indices = getSeatIndices(transaction.getSeats(), getHallByScheduleId(transaction.getScheduleId()));
+
+            // Convert the seating String to a StringBuilder for modification
+            StringBuilder seatingBuilder = new StringBuilder(seating);
+
+            // Update the characters at the specified indices
+            for (int index : indices) {
+                seatingBuilder.setCharAt(index - 1, 'f'); // Convert 1-based index to 0-based
+            }
+
+            // Convert the StringBuilder back to a String
+            String updatedSeating = seatingBuilder.toString();
+
+            try (PreparedStatement seatsStmt = conn.prepareStatement(updateSeatingQuery)) {
+                seatsStmt.setString(1, updatedSeating);
+                seatsStmt.setInt(2, transaction.getScheduleId());
+                seatsStmt.executeUpdate();
+            }
+
+            // Step 4: Update stock_quantity of products
+            String updateStockQuery = "UPDATE Products p " +
+                    "JOIN Transaction_Items ti ON p.product_id = ti.fk_product_id " +
+                    "SET p.stock_quantity = p.stock_quantity + ti.product_quantity " +
+                    "WHERE ti.fk_transaction_id = ?";
+            try (PreparedStatement stockStmt = conn.prepareStatement(updateStockQuery)) {
+                stockStmt.setInt(1, transaction.getTransactionId());
+                stockStmt.executeUpdate();
+            }
+
+            // Step 5: Delete the transaction
+            String deleteTransactionQuery = "DELETE FROM Transactions WHERE transaction_id = ?";
+            try (PreparedStatement deleteStmt = conn.prepareStatement(deleteTransactionQuery)) {
+                deleteStmt.setInt(1, transaction.getTransactionId());
+                deleteStmt.executeUpdate();
+            }
+
+            conn.commit(); // Commit transaction
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Integer> getSeatIndices(String seats, String hall) {
+        List<Integer> indices = new ArrayList<>();
+
+        for (int i = 0; i < seats.length(); i += 2) {
+            char row = seats.charAt(i); // Get the row letter
+            int column = Character.getNumericValue(seats.charAt(i + 1)); // Get the column number
+
+            if (Objects.equals(hall, "Hall A")) {
+                // Hall A: Rows A-D, Columns 1-4
+                if (row < 'A' || row > 'D' || column < 1 || column > 4) {
+                    throw new IllegalArgumentException("Invalid seat for Hall A: " + row + column);
+                }
+                int rowIndex = row - 'A'; // Convert row to zero-based index (A=0, B=1, ..., D=3)
+                int index = rowIndex * 4 + column; // Calculate the 1-based index
+                indices.add(index);
+            } else {
+                // Hall B: Rows A-F, Columns 1-8
+                if (row < 'A' || row > 'F' || column < 1 || column > 8) {
+                    throw new IllegalArgumentException("Invalid seat for Hall B: " + row + column);
+                }
+                int rowIndex = row - 'A'; // Convert row to zero-based index (A=0, B=1, ..., F=5)
+                int index = rowIndex * 8 + column; // Calculate the 1-based index
+                indices.add(index);
+            }
+        }
+
+        return indices;
+    }
+
+    public int insertTransaction(String customerName, String customerSurname, Date date,
+                                 int scheduleId, int seatQuantity, String seats,
+                                 int totalPrice, int tax, boolean discountApplied) {
+        String query = "INSERT INTO Transactions (customer_name, customer_surname, date, fk_schedule_id, " +
+                "seat_quantity, seats, total_price, tax, discount_applied) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = connect(); PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Set parameters for the query
+            preparedStatement.setString(1, customerName);
+            preparedStatement.setString(2, customerSurname);
+            preparedStatement.setDate(3, date);
+            preparedStatement.setInt(4, scheduleId);
+            preparedStatement.setInt(5, seatQuantity);
+            preparedStatement.setString(6, seats);
+            preparedStatement.setInt(7, totalPrice);
+            preparedStatement.setInt(8, tax);
+            preparedStatement.setBoolean(9, discountApplied);
+
+            // Execute the insert statement
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Get the auto-generated primary key (the ID)
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);  // Return the generated primary key (ID)
+                    } else {
+                        throw new SQLException("No primary key returned.");
+                    }
+                }
+            } else {
+                return -1;  // Return -1 if no rows were inserted (for example, an error occurred)
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;  // Return -1 if an exception occurs during the insert
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     //######################################################## TRANSACTION ITEMS TABLE FACADE CODES ########################################################################
@@ -618,12 +1064,32 @@ public class Facade {
             if (transactionItem.getFkProductId() != null) {
                 stmt.setInt(2, transactionItem.getFkProductId());
             } else {
-                stmt.setNull(2, java.sql.Types.INTEGER);
+                stmt.setNull(2, Types.INTEGER);
             }
             stmt.setInt(3, transactionItem.getProductQuantity());
             stmt.setInt(4, transactionItem.getTotalPrice());
 
             stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean insertTransactionItem(int transactionId, int productId, int productQuantity, int totalPrice) {
+        String query = "INSERT INTO Transaction_Items (fk_transaction_id, fk_product_id, product_quantity, total_price) " +
+                "VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = connect(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, transactionId);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.setInt(3, productQuantity);
+            preparedStatement.setInt(4, totalPrice);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;  // If 1 or more rows were affected, the insertion was successful.
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;  // If an exception occurs, the insertion fails.
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

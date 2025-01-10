@@ -105,7 +105,7 @@ public class adminMonthlyScheduleController {
             MenuItem deleteItem = new MenuItem("Delete Schedule");
             deleteItem.setOnAction(event -> {
                 Schedule selectedSchedule = row.getItem();
-                if (selectedSchedule != null && selectedSchedule.getScheduleId() != 0 && selectedSchedule.getTakenSeats() == 0) {
+                if (selectedSchedule != null && selectedSchedule.getScheduleId() != 0 && selectedSchedule.getTakenSeats() <= 0) {
                     // Remove the schedule from the database
                     facade.deleteSchedule(selectedSchedule.getScheduleId());
                     // Remove the user from the table's observable list
@@ -339,24 +339,37 @@ public class adminMonthlyScheduleController {
             newSchedule.setTakenSeats(0); // Assuming no seats are taken initially
             newSchedule.setSeating(seating);
 
-            // Add schedule using facade
-            facade.addNewSchedule(newSchedule);
-            showAlert("Success", "Schedule added successfully.");
-            loadSchedules(null);
-
+            if(facade.checkCollapseInSchedule(java.sql.Date.valueOf(selectedDate), Time.valueOf(selectedSessionTime), hallName))
+                showAlert("Error", "You can not add this schedule. Already there is a schedule at this date, time, and hall.");
+            else{
+                // Add schedule using facade
+                facade.addNewSchedule(newSchedule);
+                showAlert("Success", "Schedule added successfully.");
+                loadSchedules(null);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "An error occurred while adding the schedule.");
         }
     }
 
-    private void showAlert(String title, String message) {
+    public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
-        alert.setContentText(message);
+
+        // Create custom content
+        Label content = new Label(message);
+        content.setWrapText(true);
+        content.setStyle("-fx-font-size: 18px;");
+
+        // Set the custom content
+        alert.getDialogPane().setContent(content);
+
+        // Set a specific rectangular size for the alert
+        alert.getDialogPane().setPrefSize(400, 200); // Width: 400, Height: 200
+
         alert.showAndWait();
     }
-
 
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();

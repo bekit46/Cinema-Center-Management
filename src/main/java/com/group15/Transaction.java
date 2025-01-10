@@ -10,19 +10,19 @@ public class Transaction {
     private String customerName;
     private String customerSurname;
     private Date date;
-    private int movieId;
+    private int scheduleId;
     private String title;
     private int seatQuantity;
     private int totalPrice;
     private boolean discountApplied;
 
     // Parameterized constructor
-    public Transaction(int transactionId, String customerName, String customerSurname, Date date, int movieId, String title, int seatQuantity, int totalPrice, boolean discountApplied) {
+    public Transaction(int transactionId, String customerName, String customerSurname, Date date, int scheduleId, String title, int seatQuantity, int totalPrice, boolean discountApplied) {
         this.transactionId = transactionId;
         this.customerName = customerName;
         this.customerSurname = customerSurname;
         this.date = date;
-        this.movieId = movieId;
+        this.scheduleId = scheduleId;
         this.title = title;
         this.seatQuantity = seatQuantity;
         this.totalPrice = totalPrice;
@@ -42,8 +42,8 @@ public class Transaction {
     public Date getDate() { return date; }
     public void setDate(Date date) { this.date = date; }
 
-    public int getMovieId() { return movieId; }
-    public void setMovieId(int movieId) { this.movieId = movieId; }
+    public int getScheduleId() { return scheduleId; }
+    public void setScheduleId(int scheduleId) { this.scheduleId = scheduleId; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -58,7 +58,17 @@ public class Transaction {
     public void setDiscountApplied(boolean discountApplied) { this.discountApplied = discountApplied; }
 
     public String getDetails() {
-        Facade facade = new Facade(); // Ensure Facade is properly instantiated
+        Facade facade = new Facade();
         return facade.getTransactionDetails(this.transactionId);
+    }
+
+    public String getSeats(){
+        Facade facade = new Facade();
+        return facade.getTransactionSeatsById(this.transactionId);
+    }
+
+    public int getTaxById(){
+        Facade facade = new Facade();
+        return facade.getTaxById(this.transactionId);
     }
 }

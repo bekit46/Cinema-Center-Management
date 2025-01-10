@@ -1,13 +1,10 @@
 package com.group15.controllers;
-import com.group15.Facade;
-import com.group15.Movie;
+import com.group15.*;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import com.group15.Transaction;
-import com.group15.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -77,6 +74,39 @@ public class adminCancellationController {
 
     @FXML
     public void initialize(){
+        // Add context menu for deletion
+        transactionTable.setRowFactory(tv -> {
+            TableRow<Transaction> row = new TableRow<>();
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem deleteItem = new MenuItem("Refund Transaction");
+
+            deleteItem.setOnAction(event -> {
+                Transaction selectedTransaction = row.getItem();
+                if (selectedTransaction != null) {
+                    // Perform database operations to handle the refund
+                    boolean success = facade.deleteTransactionAndUpdate(selectedTransaction);
+
+                    if (success) {
+                        // Remove the transaction from the table's observable list
+                        showAlert("Success", "Transaction refunded successfully.");
+                        transactionTable.getItems().remove(selectedTransaction);
+                    } else {
+                        // Optionally show an error message if the operation fails
+                        showAlert("Error", "Failed to refund the transaction.");
+                    }
+                }
+            });
+            contextMenu.getItems().add(deleteItem);
+
+            // Only show context menu for non-empty rows
+            row.contextMenuProperty().bind(
+                    javafx.beans.binding.Bindings.when(row.emptyProperty())
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu)
+            );
+            return row;
+        });
+
         // Set up table columns
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("customerSurname"));
@@ -84,7 +114,7 @@ public class adminCancellationController {
         movieTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         seatQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("seatQuantity"));
         detailsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDetails()));
-        costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        costColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getTotalPrice()).asObject());
 
         // Load all transactions initially
         loadTransactions(null, null, null);
@@ -243,5 +273,23 @@ public class adminCancellationController {
         stage.setY(screenBounds.getMinY());
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
+    }
+
+    public void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+
+        // Create custom content
+        Label content = new Label(message);
+        content.setWrapText(true);
+        content.setStyle("-fx-font-size: 18px;");
+
+        // Set the custom content
+        alert.getDialogPane().setContent(content);
+
+        // Set a specific rectangular size for the alert
+        alert.getDialogPane().setPrefSize(400, 200); // Width: 400, Height: 200
+
+        alert.showAndWait();
     }
 }

@@ -12,9 +12,9 @@
    <children>
       <TableView fx:id="revenueTable" layoutX="310.0" layoutY="140.0" prefHeight="80.0" prefWidth="1500.0" style="-fx-background-color: #12202C;">
          <columns>
-            <TableColumn fx:id="taxFreeColumn" prefWidth="500.0" text="Total Tax-Free Income" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="totalTaxColumn" minWidth="0.0" prefWidth="500.0" text="Total Tax" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="totalColumn" prefWidth="499.0" text="Total Revenue" style="-fx-font-size: 16px;"/>
+            <TableColumn fx:id="taxFreeColumn" prefWidth="500.0" style="-fx-font-size: 16px;" text="Total Tax-Free Income" />
+            <TableColumn fx:id="totalTaxColumn" minWidth="0.0" prefWidth="500.0" style="-fx-font-size: 16px;" text="Total Tax" />
+            <TableColumn fx:id="totalColumn" prefWidth="499.0" style="-fx-font-size: 16px;" text="Total Revenue" />
          </columns>
       </TableView>
       <Pane layoutY="-50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="250.0" style="-fx-background-color: #12202C;">
@@ -116,7 +116,7 @@
             </Label>
          </children>
       </Pane>
-      <Button fx:id="saveButton" layoutX="1555.0" layoutY="220.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: Verdana; -fx-font-size: 16;" text="Back to Menu" textFill="WHITE">
+      <Button fx:id="saveButton" layoutX="1560.0" layoutY="227.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #009EF7; -fx-font-weight: bold; -fx-font: Verdana; -fx-font-size: 16;" text="Back to Menu" textFill="WHITE">
          <padding>
             <Insets left="30.0" right="30.0" />
          </padding>

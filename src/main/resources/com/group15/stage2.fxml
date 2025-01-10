@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030.0" prefWidth="1870.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group15.controllers.stage2Controller">
+   <children>
+      <Pane layoutX="1450.0" prefHeight="1030.0" prefWidth="470.0" style="-fx-background-color: #12202C;">
+         <children>
+            <ImageView fx:id="poster" fitHeight="400.0" fitWidth="270.0" layoutX="100.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <DatePicker fx:id="datePicker" layoutX="650.0" layoutY="99.0" prefHeight="50.0" prefWidth="350.0" promptText="Select a date" />
+      <Label layoutX="400.0" layoutY="220.0" prefHeight="44.0" prefWidth="118.0" style="-fx-font-size: 30;" text="Hall A" />
+      <Label layoutX="400.0" layoutY="450.0" prefHeight="44.0" prefWidth="118.0" style="-fx-font-size: 30;" text="Hall B" />
+      <Button fx:id="SessionA1" layoutX="400.0" layoutY="280.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="12:00" />
+      <Button fx:id="SessionA2" layoutX="550.0" layoutY="280.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="14:00" />
+      <Button fx:id="SessionA3" layoutX="700.0" layoutY="280.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="16:00" />
+      <Button fx:id="SessionA4" layoutX="850.0" layoutY="280.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="18:00" />
+      <Button fx:id="SessionA5" layoutX="1000.0" layoutY="280.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="20:00" />
+      <Button fx:id="SessionA6" layoutX="1150.0" layoutY="280.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="22:00" />
+      <Button fx:id="SessionB1" layoutX="400.0" layoutY="510.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="12:00" />
+      <Button fx:id="SessionB2" layoutX="550.0" layoutY="510.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="14:00" />
+      <Button fx:id="SessionB3" layoutX="700.0" layoutY="510.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="16:00" />
+      <Button fx:id="SessionB4" layoutX="850.0" layoutY="510.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="18:00" />
+      <Button fx:id="SessionB5" layoutX="1000.0" layoutY="510.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="20:00" />
+      <Button fx:id="SessionB6" layoutX="1150.0" layoutY="510.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;  -fx-background-color: #009EF7;" text="22:00" />
+      <Label fx:id="vacantA1" alignment="CENTER" layoutX="400.0" layoutY="330.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantA2" alignment="CENTER" layoutX="550.0" layoutY="330.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantA3" alignment="CENTER" layoutX="700.0" layoutY="330.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantA4" alignment="CENTER" layoutX="850.0" layoutY="330.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantA5" alignment="CENTER" layoutX="1000.0" layoutY="330.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantA6" alignment="CENTER" layoutX="1150.0" layoutY="330.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantB1" alignment="CENTER" layoutX="400.0" layoutY="560.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantB2" alignment="CENTER" layoutX="550.0" layoutY="560.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantB3" alignment="CENTER" layoutX="700.0" layoutY="560.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantB4" alignment="CENTER" layoutX="850.0" layoutY="560.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantB5" alignment="CENTER" layoutX="1000.0" layoutY="560.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <Label fx:id="vacantB6" alignment="CENTER" layoutX="1150.0" layoutY="560.0" prefHeight="50.0" prefWidth="130.0" style="-fx-font-size: 20;" text="-" />
+      <TextField fx:id="movieNameField" alignment="CENTER" editable="false" layoutX="1510.0" layoutY="490.0" prefHeight="45.0" prefWidth="350.0" style="-fx-background-color: #009EF7; -fx-font-size: 20;" text="" />
+      <TextField fx:id="movieGenreField" alignment="CENTER_LEFT" editable="false" layoutX="1510.0" layoutY="545.0" prefHeight="45.0" prefWidth="350.0" style="-fx-background-color: #009EF7; -fx-font-size: 20;" text="" />
+      <TextArea fx:id="movieSummaryField" editable="false" layoutX="1510.0" layoutY="600.0" prefHeight="215.0" prefWidth="350.0" style="-fx-font-size: 17; -fx-control-inner-background: #009EF7; -fx-background-color: #009EF7;" text="" wrapText="true">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="ButtonNext" layoutX="1700.0" layoutY="830.0" mnemonicParsing="false" onAction="#nextScreen" prefHeight="60.0" prefWidth="160.0" style="-fx-font-size: 30; -fx-background-color: #009EF7; -fx-font-weight: bold;" text="Next" />
+      <Button fx:id="ButtonPrev" layoutX="1510.0" layoutY="830.0" mnemonicParsing="false" onAction="#prevScreen" prefHeight="60.0" prefWidth="160.0" style="-fx-font-size: 30; -fx-background-color: #009EF7; -fx-font-weight: bold;" text="Back" />
+      <Pane layoutY="940.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="1920.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Label layoutX="896.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="© Copyright 2025 Group 15 Cinema Center" textFill="WHITE">
+               <font>
+                  <Font name="Yu Gothic Medium" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane prefHeight="1030.0" prefWidth="275.0" style="-fx-background-color: #12202C;">
+         <children>
+            <Button fx:id="closeButton" layoutX="30.0" layoutY="889.0" mnemonicParsing="false" onAction="#logout" prefHeight="42.0" prefWidth="215.0" style="-fx-background-color: red; -fx-font-size: 20; -fx-font-weight: bold;" text="Logout" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="23.0" layoutY="605.0" prefHeight="83.0" prefWidth="225.0" style="-fx-font-size: 40; -fx-text-fill: white;" text="User Profile" textFill="WHITE" />
+            <Label fx:id="Surname" layoutX="13.0" layoutY="755.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="surname:" textFill="WHITE" />
+            <Label fx:id="Name" layoutX="13.0" layoutY="715.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="name:" textFill="WHITE" />
+            <Label fx:id="Username" layoutX="13.0" layoutY="675.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="User name:" textFill="WHITE" />
+            <Label fx:id="Role" layoutX="13.0" layoutY="795.0" prefHeight="50.0" prefWidth="225.0" style="-fx-font-size: 20; -fx-text-fill: white;" text="role:" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="19.0" layoutY="28.0" prefHeight="83.0" prefWidth="225.0" style="-fx-font-size: 30; -fx-text-fill: white; -fx-font-family: tahoma; -fx-font-weight: bold;" text="Group 15" textFill="WHITE" />
+            <Label alignment="CENTER" layoutY="80.0" prefHeight="83.0" prefWidth="275.0" style="-fx-font-size: 30; -fx-text-fill: white; -fx-font-family: tahoma; -fx-font-weight: bold;" text="Cinema Center" textFill="WHITE" />
+            <Label alignment="CENTER" layoutX="-2.0" layoutY="163.0" prefHeight="83.0" prefWidth="275.0" style="-fx-font-size: 30; -fx-text-fill: #009EF7; -fx-font-family: tahoma; -fx-font-weight: bold;" text="Cashier Menu" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</Pane>

@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.geometry.Rectangle2D;
@@ -31,6 +33,8 @@ public class ManagerController {
     private Button pricingButton;
     @FXML
     private Button revenueButton;
+    @FXML
+    private ImageView mainMenu;
 
     private User user;
 
@@ -40,6 +44,13 @@ public class ManagerController {
         usernameLabel.setText(user.getUsername());
         nameSurnameLabel.setText(user.getName() + " " + user.getSurname());
         roleLabel.setText(user.getRole());
+    }
+
+    @FXML
+    public void initialize() {
+        // Load the image resource from the classpath
+        Image image = new Image(getClass().getResource("/images/extra/mainMenu.png").toExternalForm());
+        mainMenu.setImage(image);
     }
 
     @FXML

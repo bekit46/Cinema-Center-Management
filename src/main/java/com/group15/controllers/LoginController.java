@@ -80,10 +80,10 @@ public class LoginController {
                 break;
 
             case "cashier":
-                loader = new FXMLLoader(getClass().getResource("/com/group15/cashierMenuGUI.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/com/group15/stage1.fxml"));
                 root = loader.load();
 
-                CashierController cashierController = loader.getController();
+                stage1Controller cashierController = loader.getController();
                 cashierController.setUser(user);
                 break;
 

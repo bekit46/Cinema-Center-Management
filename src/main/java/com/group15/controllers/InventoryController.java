@@ -77,7 +77,6 @@ public class InventoryController {
     private void initialize() {
         // Initialize the table columns
         inventoryTable.setEditable(true);
-        nameColumn.setEditable(true);
         priceColumn.setEditable(true);
         quantityColumn.setEditable(true);
         taxColumn.setEditable(true);
@@ -90,26 +89,19 @@ public class InventoryController {
         loadInventoryData();
 
         // Set cell factories and edit commit handlers
-        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        nameColumn.setOnEditCommit(event -> {
-            Product product = event.getRowValue();
-            String newName = event.getNewValue();
-            product.setProductName(newName);
-            // Track the modified product
-            if (!modifiedProducts.contains(product)) {
-                modifiedProducts.add(product);
-            }
-            inventoryTable.refresh();
-        });
 
         priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         priceColumn.setOnEditCommit(event -> {
             Product product = event.getRowValue();
             Double newPrice = event.getNewValue();
-            product.setPrice(newPrice);
-            // Track the modified product
-            if (!modifiedProducts.contains(product)) {
-                modifiedProducts.add(product);
+            if(newPrice < 0)
+                showAlert("Error", "Price can not be negative.");
+            else{
+                product.setPrice(newPrice);
+                // Track the modified product
+                if (!modifiedProducts.contains(product)) {
+                    modifiedProducts.add(product);
+                }
             }
             inventoryTable.refresh();
         });
@@ -118,10 +110,14 @@ public class InventoryController {
         quantityColumn.setOnEditCommit(event -> {
             Product product = event.getRowValue();
             Integer newQuantity = event.getNewValue();
-            product.setStockQuantity(newQuantity);
-            // Track the modified product
-            if (!modifiedProducts.contains(product)) {
-                modifiedProducts.add(product);
+            if(newQuantity < 0)
+                showAlert("Error", "Stock quantity can not be negative.");
+            else{
+                product.setStockQuantity(newQuantity);
+                // Track the modified product
+                if (!modifiedProducts.contains(product)) {
+                    modifiedProducts.add(product);
+                }
             }
             inventoryTable.refresh();
         });
@@ -130,10 +126,14 @@ public class InventoryController {
         taxColumn.setOnEditCommit(event -> {
             Product product = event.getRowValue();
             Integer newTax = event.getNewValue();
-            product.setTax(newTax);
-            // Track the modified product
-            if (!modifiedProducts.contains(product)) {
-                modifiedProducts.add(product);
+            if(newTax < 0 || newTax > 100)
+                showAlert("Error", "Tax rate should be between %0 and %100.");
+            else{
+                product.setTax(newTax);
+                // Track the modified product
+                if (!modifiedProducts.contains(product)) {
+                    modifiedProducts.add(product);
+                }
             }
             inventoryTable.refresh();
         });
@@ -301,5 +301,23 @@ public class InventoryController {
         stage.setY(screenBounds.getMinY());
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
+    }
+
+    public void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+
+        // Create custom content
+        Label content = new Label(message);
+        content.setWrapText(true);
+        content.setStyle("-fx-font-size: 18px;");
+
+        // Set the custom content
+        alert.getDialogPane().setContent(content);
+
+        // Set a specific rectangular size for the alert
+        alert.getDialogPane().setPrefSize(400, 200); // Width: 400, Height: 200
+
+        alert.showAndWait();
     }
 }

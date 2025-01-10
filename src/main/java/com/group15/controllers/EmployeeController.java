@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -86,8 +88,11 @@ public class EmployeeController {
                     // Remove the user from the database
                     facade.deleteUser(selectedUser.getUserId());
                     // Remove the user from the table's observable list
+                    showAlert("Success", "Employee deleted successfully.");
                     employeeTable.getItems().remove(selectedUser);
                 }
+                if(selectedUser != null && selectedUser.getUserId() == this.user.getUserId())
+                    showAlert("Error", "You can not fire yourself.");
             });
             contextMenu.getItems().add(deleteItem);
             // Only show context menu for non-empty rows
@@ -121,12 +126,16 @@ public class EmployeeController {
         usernameColumn.setOnEditCommit(event -> {
             User user = event.getRowValue();
             String newUsername = event.getNewValue();
-            user.setUsername(newUsername);
-            // Check if this is the placeholder row
-            if (!modifiedUsers.contains(user)) {
-                modifiedUsers.add(user);
+            if(newUsername.isEmpty())
+                showAlert("Error", "Username field can not be empty.");
+            else {
+                user.setUsername(newUsername);
+                // Check if this is the placeholder row
+                if (!modifiedUsers.contains(user)) {
+                    modifiedUsers.add(user);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -134,12 +143,16 @@ public class EmployeeController {
         nameColumn.setOnEditCommit(event -> {
             User user = event.getRowValue();
             String newName = event.getNewValue();
-            user.setName(newName);
-            // Check if this is the placeholder row
-            if (!modifiedUsers.contains(user)) {
-                modifiedUsers.add(user);
+            if(newName.isEmpty())
+                showAlert("Error", "Name field can not be empty.");
+            else {
+                user.setName(newName);
+                // Check if this is the placeholder row
+                if (!modifiedUsers.contains(user)) {
+                    modifiedUsers.add(user);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -147,12 +160,16 @@ public class EmployeeController {
         surnameColumn.setOnEditCommit(event -> {
             User user = event.getRowValue();
             String newSurname = event.getNewValue();
-            user.setSurname(newSurname);
-            // Check if this is the placeholder row
-            if (!modifiedUsers.contains(user)) {
-                modifiedUsers.add(user);
+            if(newSurname.isEmpty())
+                showAlert("Error", "Surname field can not be empty.");
+            else {
+                user.setSurname(newSurname);
+                // Check if this is the placeholder row
+                if (!modifiedUsers.contains(user)) {
+                    modifiedUsers.add(user);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -160,12 +177,16 @@ public class EmployeeController {
         roleColumn.setOnEditCommit(event -> {
             User user = event.getRowValue();
             String newRole = event.getNewValue();
-            user.setRole(newRole);
-            // Check if this is the placeholder row
-            if (!modifiedUsers.contains(user)) {
-                modifiedUsers.add(user);
+            if(!Objects.equals(newRole, "manager") && !Objects.equals(newRole, "admin") && !Objects.equals(newRole, "cashier"))
+                showAlert("Error", "Role field can only be 'admin', 'manager', or 'cashier'.");
+            else{
+                user.setRole(newRole);
+                // Check if this is the placeholder row
+                if (!modifiedUsers.contains(user)) {
+                    modifiedUsers.add(user);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
 
@@ -173,12 +194,16 @@ public class EmployeeController {
         passwordColumn.setOnEditCommit(event -> {
             User user = event.getRowValue();
             String newPassword = event.getNewValue();
-            user.setPassword(newPassword);
-            // Check if this is the placeholder row
-            if (!modifiedUsers.contains(user)) {
-                modifiedUsers.add(user);
+            if(newPassword.length() < 4)
+                showAlert("Error", "Password must be at least 4 characters long.");
+            else{
+                user.setPassword(newPassword);
+                // Check if this is the placeholder row
+                if (!modifiedUsers.contains(user)) {
+                    modifiedUsers.add(user);
+                }
+                refreshTableWithPlaceholder();
             }
-            refreshTableWithPlaceholder();
             employeeTable.refresh();
         });
     }
@@ -362,5 +387,23 @@ public class EmployeeController {
         stage.setY(screenBounds.getMinY());
         stage.setWidth(screenBounds.getWidth());
         stage.setHeight(screenBounds.getHeight());
+    }
+
+    public void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+
+        // Create custom content
+        Label content = new Label(message);
+        content.setWrapText(true);
+        content.setStyle("-fx-font-size: 18px;");
+
+        // Set the custom content
+        alert.getDialogPane().setContent(content);
+
+        // Set a specific rectangular size for the alert
+        alert.getDialogPane().setPrefSize(400, 200); // Width: 400, Height: 200
+
+        alert.showAndWait();
     }
 }
