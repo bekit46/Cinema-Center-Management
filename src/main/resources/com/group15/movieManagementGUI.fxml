@@ -12,10 +12,10 @@
    <children>
       <TableView fx:id="movieTable" layoutX="310.0" layoutY="140.0" prefHeight="650.0" prefWidth="1500.0" style="-fx-background-color: #12202C;">
          <columns>
-            <TableColumn fx:id="posterColumn" prefWidth="282.0" text="Poster" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="titleColumn" prefWidth="310.0" text="Movie title" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="genreColumn" prefWidth="258.0" text="Genres" style="-fx-font-size: 16px;"/>
-            <TableColumn fx:id="summaryColumn" prefWidth="724.0" text="Summary" style="-fx-font-size: 16px;"/>
+            <TableColumn fx:id="posterColumn" prefWidth="282.0" style="-fx-font-size: 16px;" text="Poster Name" />
+            <TableColumn fx:id="titleColumn" prefWidth="310.0" style="-fx-font-size: 16px;" text="Movie title" />
+            <TableColumn fx:id="genreColumn" prefWidth="258.0" style="-fx-font-size: 16px;" text="Genres" />
+            <TableColumn fx:id="summaryColumn" prefWidth="724.0" style="-fx-font-size: 16px;" text="Summary" />
          </columns>
       </TableView>
       <Pane layoutY="-50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="250.0" style="-fx-background-color: #12202C;">

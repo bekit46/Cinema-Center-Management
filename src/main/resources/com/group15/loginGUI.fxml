@@ -29,13 +29,13 @@
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="usernameField" layoutX="82.0" layoutY="134.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="230.0" promptText="Enter your username" style="-fx-background-color: E0F0F5; -fx-border-color: #009EF7; -fx-background-radius: 3; -fx-border-radius: 3; -fx-font-size: 14;" />
+            <TextField fx:id="usernameField" layoutX="82.0" layoutY="134.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="230.0" promptText="Enter your username" style="-fx-background-color: #F0F8FF; -fx-border-color: #009EF7; -fx-background-radius: 3; -fx-border-radius: 3; -fx-font-size: 14; -fx-border-width: 1;" />
             <Label layoutX="83.0" layoutY="195.0" text="Password" textFill="#12202c">
                <font>
                   <Font name="Cambria" size="18.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordField" layoutX="82.0" layoutY="215.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="230.0" promptText="Enter your password" style="-fx-background-color: E0F0F5; -fx-border-color: #009EF7; -fx-background-radius: 3; -fx-border-radius: 3; -fx-font-size: 14;" />
+            <PasswordField fx:id="passwordField" layoutX="82.0" layoutY="215.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="230.0" promptText="Enter your password" style="-fx-background-color: #F0F8FF; -fx-border-color: #009EF7; -fx-background-radius: 3; -fx-border-radius: 3; -fx-font-size: 14;" />
             <Label layoutX="137.0" layoutY="333.0" text="Forgot Your Password ?" textFill="#7c7a7a" />
             <Label fx:id="errorLabel" disable="true" layoutX="72.0" layoutY="306.0" textFill="#7c7a7a" />
             <Label layoutX="63.0" layoutY="44.0" text="Cinema Center Login" textFill="#12202c">

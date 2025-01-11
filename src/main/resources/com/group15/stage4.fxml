@@ -38,49 +38,49 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="450.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="450.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: #12202C; -fx-border-width: 5; -fx-border-radius: 15; -fx-background-radius: 15;">
          <children>
             <ImageView fx:id="glassesImage" fitHeight="144.0" fitWidth="146.0" layoutX="17.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="725.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="725.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: #12202C; -fx-border-width: 5; -fx-background-radius: 15; -fx-border-radius: 15;">
          <children>
             <ImageView fx:id="waterImage" fitHeight="164.0" fitWidth="160.0" layoutX="23.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="1000.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="1000.0" layoutY="200.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: #12202C; -fx-border-width: 5; -fx-border-radius: 15; -fx-background-radius: 15;">
          <children>
             <ImageView fx:id="candyImage" fitHeight="164.0" fitWidth="160.0" layoutX="21.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="450.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="450.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: black; -fx-border-width: 5; -fx-background-radius: 15; -fx-border-radius: 15;">
          <children>
             <ImageView fx:id="chipsImage" fitHeight="164.0" fitWidth="160.0" layoutX="18.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="725.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="725.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: black; -fx-border-width: 5; -fx-background-radius: 15; -fx-border-radius: 15;">
          <children>
             <ImageView fx:id="colaImage" fitHeight="121.0" fitWidth="120.0" layoutX="23.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="1000.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="1000.0" layoutY="450.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: black; -fx-border-width: 5; -fx-background-radius: 15; -fx-border-radius: 15;">
          <children>
             <ImageView fx:id="hotdogImage" fitHeight="164.0" fitWidth="160.0" layoutX="34.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="450.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="450.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: black; -fx-border-width: 5; -fx-background-radius: 15; -fx-border-radius: 15;">
          <children>
             <ImageView fx:id="icecreamImage" fitHeight="164.0" fitWidth="160.0" layoutX="42.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="725.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="725.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: black; -fx-border-width: 5; -fx-background-radius: 15; -fx-border-radius: 15;">
          <children>
             <ImageView fx:id="popcornImage" fitHeight="164.0" fitWidth="160.0" layoutX="15.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Pane layoutX="1000.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-border-color: #12202C; -fx-border-width: 7;">
+      <Pane layoutX="1000.0" layoutY="700.0" prefHeight="170.0" prefWidth="166.0" style="-fx-background-color: #F0F8FF; -fx-border-color: #12202C; -fx-background-radius: 15; -fx-border-width: 5; -fx-border-radius: 15;">
          <children>
-            <ImageView fx:id="spriteImage" fitHeight="164.0" fitWidth="160.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="spriteImage" fitHeight="164.0" fitWidth="160.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-radius: 15; -fx-border-radius: 15;" />
          </children>
       </Pane>
       <Spinner fx:id="spinner3" layoutX="1090.0" layoutY="375.0" prefHeight="30.0" prefWidth="75.0" />

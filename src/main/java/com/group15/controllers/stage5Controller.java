@@ -1,6 +1,7 @@
 package com.group15.controllers;
 
 import com.group15.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-//import com.itextpdf.layout.element.Image;
-import javafx.scene.image.Image;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +39,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
+
+import javafx.scene.SnapshotParameters;
 
 public class stage5Controller {
 
@@ -103,6 +105,9 @@ public class stage5Controller {
 
     @FXML
     private ImageView colorful;
+
+    @FXML
+    private ImageView gibLogo;
 
     @FXML
     private Button closeButton;
@@ -233,6 +238,8 @@ public class stage5Controller {
         qrkod.setImage(image1);
         image1 = new Image(getClass().getResource("/images/ticket/colorfol.png").toExternalForm());
         colorful.setImage(image1);
+        image1 = new Image(getClass().getResource("/images/extra/gibLogo.png").toExternalForm());
+        gibLogo.setImage(image1);
     }
     @FXML
     public void end(){
@@ -327,8 +334,10 @@ public class stage5Controller {
 
     public static void saveNodeAsPDF(Node node, String filePath) {
         try {
-            // Take snapshot of the Node
-            WritableImage writableImage = node.snapshot(null, null);
+            // Set up snapshot parameters for higher resolution
+            SnapshotParameters snapshotParameters = new SnapshotParameters();
+            snapshotParameters.setTransform(javafx.scene.transform.Transform.scale(2, 2)); // 2x scale for better resolution
+            WritableImage writableImage = node.snapshot(snapshotParameters, null);
 
             // Convert WritableImage to BufferedImage
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
@@ -345,8 +354,10 @@ public class stage5Controller {
             PdfDocument pdfDocument = new PdfDocument(writer);
             Document document = new Document(pdfDocument);
 
-            // Add image to PDF
+            // Add image to PDF with scaling
             com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(imageData);
+            pdfImage.scaleToFit(pdfDocument.getDefaultPageSize().getWidth() - 50,
+                    pdfDocument.getDefaultPageSize().getHeight() - 50); // Adjust margins
             document.add(pdfImage);
 
             // Close the document
@@ -356,6 +367,7 @@ public class stage5Controller {
             e.printStackTrace();
         }
     }
+
 
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

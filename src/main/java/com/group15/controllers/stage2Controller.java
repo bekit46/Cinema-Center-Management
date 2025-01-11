@@ -100,7 +100,7 @@ public class stage2Controller {
         movieSummaryField.setText(movie.getSummary());
 
         String imagePath = movie.getPoster();
-        Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+        Image image = new Image(getClass().getResource("/images/posters/" + imagePath + ".jpg").toExternalForm());
         poster.setImage(image);
     }
 

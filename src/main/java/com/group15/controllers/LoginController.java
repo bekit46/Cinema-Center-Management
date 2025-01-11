@@ -94,7 +94,6 @@ public class LoginController {
 
         // Get the current stage and retain full-screen settings
         Stage currentStage = (Stage) usernameField.getScene().getWindow();
-        boolean isFullScreen = currentStage.isFullScreen();
 
         // Set the new scene
         Scene newScene = new Scene(root);
