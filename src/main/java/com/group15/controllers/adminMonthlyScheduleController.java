@@ -185,6 +185,8 @@ public class adminMonthlyScheduleController {
                     // Remove the user from the table's observable list
                     scheduleTable.getItems().remove(selectedSchedule);
                 }
+                if(selectedSchedule != null && selectedSchedule.getTakenSeats() > 0)
+                    showAlert("Error", "You can not delete this schedule there are sold tickets.");
             });
             contextMenu.getItems().add(deleteItem);
             // Only show context menu for non-empty rows

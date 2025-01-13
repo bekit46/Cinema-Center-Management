@@ -116,7 +116,19 @@ public class stage2Controller {
         movieSummaryField.setText(movie.getSummary());
 
         String imagePath = movie.getPoster();
-        Image image = new Image(getClass().getResource("/images/posters/" + imagePath + ".jpg").toExternalForm());
+        if(imagePath == null||imagePath.isEmpty()){
+            imagePath = " ";
+        }
+        Image image;
+        try{
+            image = new Image(getClass().getResource("/images/posters/" + imagePath + ".jpg").toExternalForm());
+            if(image.isError()){
+                throw new IllegalArgumentException("Image not found");
+            }
+        }
+        catch (Exception e){
+            image = new Image(getClass().getResource("/images/extra/default_poster.jpg").toExternalForm());
+        }
         poster.setImage(image);
     }
 

@@ -301,7 +301,7 @@ public class EmployeeController {
 
             // Get the manager controller and pass the user object
             ManagerController managerController = loader.getController();
-            managerController.setUser(user);
+            managerController.setUser(facade.getUserById(this.user.getUserId()));
 
             // Set the manager menu scene on the current stage
             Stage currentStage = (Stage) saveButton.getScene().getWindow();

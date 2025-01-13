@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinema_center?serverTimezone=Europe/Istanbul";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "Ardayuksel2180"; // Replace with your password
+    private static final String DB_PASSWORD = "ubkt1234"; // Replace with your password
 
     /**
      * Establishes a connection to the database.
@@ -177,6 +177,31 @@ public class Facade {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public User getUserById(int employeeId) {
+        User user = null;
+        String query = "SELECT username, name, surname, role, password FROM Users WHERE user_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, employeeId); // Bind the parameter
+            try (ResultSet rs = stmt.executeQuery()) { // Execute the query
+                if (rs.next()) { // Use if since user_id is unique
+                    String username = rs.getString("username");
+                    String name = rs.getString("name");
+                    String surname = rs.getString("surname");
+                    String role = rs.getString("role");
+                    String password = rs.getString("password");
+
+                    user = new User(employeeId, username, name, surname, password, role);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     /**
