@@ -1,3 +1,7 @@
+/**
+ * Controller class for managing the cashier view.
+ * Handles cashier-specific operations such as displaying user information and logging out.
+ */
 package com.group15.controllers;
 
 import com.group15.Facade;
@@ -12,6 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller for the Cashier interface.
+ * Manages user session and navigation.
+ */
 public class CashierController {
 
     @FXML
@@ -20,14 +28,23 @@ public class CashierController {
     @FXML
     private Button closeButton; // Correct type for closeButton
 
+    /** The current user. */
     private User user;
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user The cashier user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
         usernameLabel.setText(user.getUsername());
     }
 
+    /**
+     * Handles the close button action, logging out the cashier and returning to the login view.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage

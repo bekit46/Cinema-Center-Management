@@ -6,8 +6,19 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
+/**
+ * Main class for the Cinema Center application.
+ * This class initializes and launches the JavaFX application, setting up the main stage
+ * and configuring it to display the login GUI.
+ */
 public class Main extends Application {
 
+    /**
+     * Starts the JavaFX application.
+     *
+     * @param primaryStage the primary stage for this application.
+     * @throws Exception if there is an issue loading the FXML file.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the FXML file
@@ -22,6 +33,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Configures the stage to fill the entire screen.
+     *
+     * @param stage the stage to configure.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -32,6 +48,11 @@ public class Main extends Application {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Main entry point for the application.
+     *
+     * @param args the command-line arguments.
+     */
     public static void main(String[] args) {
         launch(args); // Launch the JavaFX application
     }

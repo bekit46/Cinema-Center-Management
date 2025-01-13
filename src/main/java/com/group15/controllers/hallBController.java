@@ -1,3 +1,8 @@
+/**
+ * Controller class for managing the Hall B view in the JavaFX application.
+ * Handles seat selection, user interaction, and navigation between screens.
+ * Provides functionality to dynamically update the seat states and user information.
+ */
 package com.group15.controllers;
 
 import com.group15.DataPass;
@@ -45,6 +50,10 @@ public class hallBController {
 
     Facade facade = new Facade();
 
+    /**
+     * Sets the shared DataPass object and initializes seat states.
+     * @param data the DataPass object containing shared data.
+     */
     public void setData(DataPass data){
         this.data = data;
         Schedule schedule = data.schedule;
@@ -77,6 +86,10 @@ public class hallBController {
 
     private User user;
 
+    /**
+     * Sets the user data and updates the UI labels.
+     * @param user the User object containing user details.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -86,11 +99,18 @@ public class hallBController {
         Role.setText("Role: "+user.getRole());
     }
 
+    /**
+     * Initializes the controller.
+     */
     @FXML
     public void initialize() {
         
     }
 
+    /**
+     * Adds a toggle handler for a button to manage seat selection.
+     * @param button the Button to add the handler to.
+     */
     private void addButtonToggleHandler(Button button) {
         button.setOnAction(event -> {
             String currentStyle = button.getStyle();
@@ -118,6 +138,10 @@ public class hallBController {
         });
     }
 
+    /**
+     * Navigates to the next screen (Stage 4).
+     * @param event the ActionEvent triggered by clicking the Next button.
+     */
     @FXML
     private void NextScreen(ActionEvent event) {
         try {
@@ -140,6 +164,10 @@ public class hallBController {
         }
     }
 
+    /**
+     * Navigates to the previous screen (Stage 2).
+     * @param event the ActionEvent triggered by clicking the Prev button.
+     */
     @FXML
     private void PrevScreen(ActionEvent event){
         try {
@@ -161,6 +189,9 @@ public class hallBController {
         }
     }
 
+    /**
+     * Logs out the current user and navigates back to the login screen.
+     */
     @FXML
     public void logout() {
         // Get the current stage
@@ -185,6 +216,10 @@ public class hallBController {
         }
     }
 
+    /**
+     * Adjusts the stage to fill the entire screen.
+     * @param stage the Stage to adjust.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 

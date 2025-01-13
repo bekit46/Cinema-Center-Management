@@ -1,3 +1,7 @@
+/**
+ * Controller class for Stage 1 in the application.
+ * Handles the user interface and logic for movie browsing, searching, and transitioning to the next screen.
+ */
 package com.group15.controllers;
 
 import com.group15.DataPass;
@@ -73,7 +77,11 @@ public class stage1Controller {
     private User user;
 
 
-
+    /**
+     * Sets the user details and updates the labels to display the user's information.
+     *
+     * @param user The user whose details are to be displayed.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -83,7 +91,10 @@ public class stage1Controller {
         Role.setText("Role: "+user.getRole());
     }
 
-
+    /**
+     * Initializes the stage by setting up the search functionality,
+     * populating the movie table, and configuring event listeners.
+     */
     @FXML
     public void initialize(){
         ObservableList<Movie> movieList;
@@ -126,6 +137,9 @@ public class stage1Controller {
         });
     }
 
+    /**
+     * Logs out the current user and transitions to the login screen.
+     */
     @FXML
     public void logout(){
         // Get the current stage
@@ -149,6 +163,12 @@ public class stage1Controller {
             // Handle the exception (e.g., show an error message)
         }
     }
+
+    /**
+     * Maximizes the stage to fill the screen.
+     *
+     * @param stage The stage to be maximized.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -159,6 +179,11 @@ public class stage1Controller {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Navigates to the next screen, passing the user and movie data to the next controller.
+     *
+     * @param event The event that triggers the screen transition.
+     */
     @FXML 
     public void nextScreen(ActionEvent event){
         try {
@@ -180,6 +205,11 @@ public class stage1Controller {
     }
 
 
+    /**
+     * Performs a search based on the current search field value and selected criteria.
+     *
+     * @param searchString The string to search for.
+     */
     private void performSearch(String searchString){
         ObservableList<Movie> movieList;
         String choice = searchChoices.getValue();
@@ -201,7 +231,11 @@ public class stage1Controller {
     }
 
 
-
+    /**
+     * Displays the details of a selected movie in the appropriate fields.
+     *
+     * @param movie The movie whose details are to be displayed.
+     */
     private void showMovieDetails(Movie movie){
         data.movie=movie;
         movieNameField.setText(movie.getTitle());

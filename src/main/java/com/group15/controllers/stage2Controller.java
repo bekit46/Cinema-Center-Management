@@ -1,3 +1,8 @@
+/**
+ * Controller class for Stage 2 of the application.
+ * This class handles the logic for the second screen, including displaying movie details,
+ * managing session selection, handling user interactions, and navigating between screens.
+ */
 package com.group15.controllers;
 
 import java.io.IOException;
@@ -84,6 +89,11 @@ public class stage2Controller {
 
     public Facade facade=new Facade();
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user the current user object.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -92,6 +102,12 @@ public class stage2Controller {
         Surname.setText("Surname: "+user.getSurname());
         Role.setText("Role: "+user.getRole());
     }
+
+    /**
+     * Sets the data object and updates the UI with movie details.
+     *
+     * @param data the DataPass object containing movie and schedule information.
+     */
     public void setData(DataPass data){
         this.data=data;
         Movie movie = data.movie;
@@ -104,6 +120,9 @@ public class stage2Controller {
         poster.setImage(image);
     }
 
+    /**
+     * Initializes the controller, setting up event handlers and configuring the UI.
+     */
     @FXML
     public void initialize() {
 
@@ -163,7 +182,11 @@ public class stage2Controller {
         ButtonNext.setVisible(false);
     }
 
-
+    /**
+     * Handles navigation to the next screen based on the selected hall.
+     *
+     * @param event the action event triggered by the button.
+     */
     public void nextScreen(ActionEvent event) {
         try {
             // Load the second screen
@@ -188,7 +211,9 @@ public class stage2Controller {
         }
     }
 
-
+    /**
+     * Handles navigation to the previous screen.
+     */
     @FXML
     public void prevScreen() {
         try {
@@ -210,6 +235,9 @@ public class stage2Controller {
 
     }
 
+    /**
+     * Logs out the user and navigates back to the login screen.
+     */
     @FXML
     public void logout() {
         // Get the current stage
@@ -233,6 +261,11 @@ public class stage2Controller {
             // Handle the exception (e.g., show an error message)
         }
     }
+    /**
+     * Maximizes the stage to fill the screen.
+     *
+     * @param stage the stage to maximize.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -243,6 +276,11 @@ public class stage2Controller {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Handles the selection of a session button and updates the schedule data.
+     *
+     * @param pressedButton the session button that was pressed.
+     */
     private void sessionPickButton(Button pressedButton) {
         // Reset the style of the last pressed button
         if (lastPressedButton != null) {
@@ -293,6 +331,11 @@ public class stage2Controller {
 
     //sql query
 
+    /**
+     * Handles date selection and updates the UI with the corresponding schedules.
+     *
+     * @param selectedDate the selected date.
+     */
     private void handleDateSelected(LocalDate selectedDate) {
         // Retrieve schedules for the selected date
         data.selectedDate = selectedDate;
@@ -354,6 +397,9 @@ public class stage2Controller {
         updateButtonStylesAndActions();
     }
 
+    /**
+     * Updates the styles and actions of session buttons based on vacancy.
+     */
     private void updateButtonStylesAndActions() {
         updateButtonStyle(SessionA1, vacantA1);
         updateButtonStyle(SessionA2, vacantA2);
@@ -369,6 +415,12 @@ public class stage2Controller {
         updateButtonStyle(SessionB6, vacantB6);
     }
 
+    /**
+     * Updates the style and action of a session button based on vacancy.
+     *
+     * @param sessionButton the session button.
+     * @param vacantText    the label displaying the vacancy.
+     */
     private void updateButtonStyle(Button sessionButton, Label vacantText) {
         if (!vacantText.getText().equals("0") && !vacantText.getText().equals("-")) {
             sessionButton.setStyle("-fx-font-size: 20; -fx-background-color: #009EF7;");
@@ -379,6 +431,12 @@ public class stage2Controller {
         }
     }
 
+    /**
+     * Determines the session time based on the pressed button.
+     *
+     * @param pressedButton the pressed session button.
+     * @return the session time as a string.
+     */
     private String determineSessionTime(Button pressedButton) {
         if (pressedButton == SessionA1) return "12:00";
         if (pressedButton == SessionA2) return "14:00";
@@ -396,6 +454,12 @@ public class stage2Controller {
         return null;
     }
 
+    /**
+     * Converts a time string to a Time object.
+     *
+     * @param timeString the time string.
+     * @return the Time object, or null if parsing fails.
+     */
     private Time convertToTime(String timeString) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");

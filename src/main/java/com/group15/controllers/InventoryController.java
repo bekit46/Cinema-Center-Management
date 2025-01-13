@@ -1,3 +1,7 @@
+/**
+ * The InventoryController class handles the logic for the inventory management GUI.
+ * It allows users to view, edit, and manage product inventory, and navigate to other sections of the application.
+ */
 package com.group15.controllers;
 import com.group15.Facade;
 import com.group15.Product;
@@ -58,6 +62,9 @@ public class InventoryController {
     // To track modified products
     private ObservableList<Product> modifiedProducts;
 
+    /**
+     * Constructor for the InventoryController class. Initializes the Facade and modifiedProducts list.
+     */
     public InventoryController() {
         this.facade = new Facade();
         this.modifiedProducts = FXCollections.observableArrayList(); // Initialize the list
@@ -65,6 +72,12 @@ public class InventoryController {
 
     private User user;
 
+
+    /**
+     * Sets the logged-in user's information and updates the corresponding labels.
+     *
+     * @param user the logged-in user
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -73,6 +86,9 @@ public class InventoryController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the controller, sets up the TableView columns, and loads inventory data.
+     */
     @FXML
     private void initialize() {
         // Initialize the table columns
@@ -139,11 +155,17 @@ public class InventoryController {
         });
     }
 
+    /**
+     * Loads product data into the TableView.
+     */
     private void loadInventoryData() {
         ObservableList<Product> products = FXCollections.observableArrayList(facade.getAllProducts());
         inventoryTable.setItems(products);
     }
 
+    /**
+     * Handles the logic for the close button, navigating back to the login screen.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -168,6 +190,9 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Handles the logic for the save button, saving changes and navigating to the manager menu.
+     */
     public void handleSaveButton() {
         try {
             // Iterate over modified products and update them in the database
@@ -197,6 +222,9 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Handles the navigation to the inventory management scene.
+     */
 @FXML
     public void handleInventoryButton() {
         try {
@@ -222,6 +250,9 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Handles the navigation to the employee management scene.
+     */
     @FXML
     public void handleEmployeeButton() {
         try {
@@ -246,6 +277,9 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Handles the navigation to the movie pricing management scene.
+     */
     @FXML
     public void handlePricingButton() {
         try {
@@ -270,6 +304,9 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Handles the navigation to the revenue display scene.
+     */
     @FXML
     public void handleRevenueButton() {
         try {
@@ -293,6 +330,11 @@ public class InventoryController {
         }
     }
 
+    /**
+     * Configures the stage to fill the screen.
+     *
+     * @param stage the stage to configure
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -303,6 +345,12 @@ public class InventoryController {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Displays an alert dialog with a given title and message.
+     *
+     * @param title the title of the alert
+     * @param message the message of the alert
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

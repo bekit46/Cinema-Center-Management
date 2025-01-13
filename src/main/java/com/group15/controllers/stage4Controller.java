@@ -1,3 +1,7 @@
+/**
+ * Controller class for Stage 4 in the application.
+ * Handles user interactions, updates UI elements, and communicates between scenes.
+ */
 package com.group15.controllers;
 
 import java.io.IOException;
@@ -132,6 +136,11 @@ public class stage4Controller {
 
     private User user;
 
+    /**
+     * Sets the user and updates the UI with user information.
+     *
+     * @param user The current user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -146,6 +155,11 @@ public class stage4Controller {
     public double absTotal;
     public double tax;
 
+    /**
+     * Sets data and initializes the UI elements.
+     *
+     * @param data The data to be shared across scenes.
+     */
     public void setData(DataPass data){
         this.data = data;
         absTotal = data.getTotalPrice();
@@ -214,6 +228,9 @@ public class stage4Controller {
         });
     }
 
+    /**
+     * Initializes the stage and adds listeners to relevant UI elements.
+     */
     @FXML
     private void initialize() {
         ButtonNext.setVisible(false);
@@ -223,6 +240,11 @@ public class stage4Controller {
 
     }
 
+    /**
+     * Adds a listener to a spinner to update the cart when its value changes.
+     *
+     * @param spinner The spinner to add the listener to.
+     */
     public void setupSpinnerListener(Spinner<Integer> spinner){
         spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
             Product product = spinnerProductMap.get(spinner);
@@ -230,6 +252,13 @@ public class stage4Controller {
         });
     }
 
+    /**
+     * Updates the cart text area when spinner values change.
+     *
+     * @param product  The product associated with the spinner.
+     * @param oldValue The old spinner value.
+     * @param newValue The new spinner value.
+     */
     private void updateTextArea(Product product, int oldValue, int newValue) {
         
         String currentText = cart.getText();
@@ -258,6 +287,9 @@ public class stage4Controller {
     }
 
 
+    /**
+     * Logs out the user and navigates back to the login screen.
+     */
     @FXML
     public void logout(){
         // Get the current stage
@@ -281,6 +313,12 @@ public class stage4Controller {
             // Handle the exception (e.g., show an error message)
         }
     }
+
+    /**
+     * Fills the stage to match the screen dimensions.
+     *
+     * @param stage The stage to be resized.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -291,6 +329,11 @@ public class stage4Controller {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Navigates to the next screen.
+     *
+     * @param event The event triggering the navigation.
+     */
     @FXML
     private void NextScreen(ActionEvent event) {
         try {
@@ -321,6 +364,11 @@ public class stage4Controller {
         }
     }
 
+    /**
+     * Navigates back to the previous screen.
+     *
+     * @param event The event triggering the navigation.
+     */
     @FXML
     private void Back(ActionEvent event) {
         try {
@@ -355,7 +403,12 @@ public class stage4Controller {
         }
     }
 
-
+    /**
+     * Applies a discount when the number of discounted tickets changes.
+     *
+     * @param oldValue The old value of the spinner.
+     * @param newValue The new value of the spinner.
+     */
     public void discountedMethod(Integer oldValue,Integer newValue){
         double nonDiscTicket = (double)data.movie.getPrice()+((double)data.movie.getPrice()/100)*data.movie.getTax();
         

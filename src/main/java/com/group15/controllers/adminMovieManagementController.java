@@ -1,3 +1,7 @@
+/**
+ * Controller class for managing the admin movie management view.
+ * Provides functionalities to add, edit, delete, and manage movies.
+ */
 package com.group15.controllers;
 
 import com.group15.Facade;
@@ -20,7 +24,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller for the Admin Movie Management interface.
+ * Handles movie data operations including addition, deletion, and modification.
+ */
 public class adminMovieManagementController {
+
+    /** Table for displaying movie data. */
     @FXML
     private TableView<Movie> movieTable;
     @FXML
@@ -54,11 +64,19 @@ public class adminMovieManagementController {
     private User user;
     private Facade facade;
 
+    /**
+     * Constructor for initializing the admin movie management controller.
+     */
     public adminMovieManagementController() {
         this.facade = new Facade();
         this.modifiedMovies = FXCollections.observableArrayList(); // Initialize the list
     }
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user The admin user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -67,6 +85,9 @@ public class adminMovieManagementController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the controller and sets up UI components.
+     */
     @FXML
     private void initialize(){
         // Add context menu for deletion
@@ -182,6 +203,9 @@ public class adminMovieManagementController {
         });
     }
 
+    /**
+     * Adds a placeholder row to the movie table if it does not already exist.
+     */
     private void refreshTableWithPlaceholder() {
         ObservableList<Movie> currentMovies = FXCollections.observableArrayList(movieTable.getItems());
 
@@ -195,6 +219,9 @@ public class adminMovieManagementController {
         movieTable.setItems(currentMovies);
     }
 
+    /**
+     * Loads movie data into the table.
+     */
     private void loadMovieData() {
         ObservableList<Movie> movies = FXCollections.observableArrayList(facade.getAllMovies());
         Movie placeholder = new Movie(0, "", "", "", "", 0, 0, 0); // Adjust fields as needed
@@ -202,6 +229,9 @@ public class adminMovieManagementController {
         movieTable.setItems(movies);
     }
 
+    /**
+     * Handles navigation to the movie management view.
+     */
     @FXML
     public void handleMovieManagementButton() {
         try {
@@ -226,6 +256,9 @@ public class adminMovieManagementController {
         }
     }
 
+    /**
+     * Handles navigation to the monthly schedule view.
+     */
     @FXML
     public void handleMonthlyScheduleButton() {
         try {
@@ -250,6 +283,9 @@ public class adminMovieManagementController {
         }
     }
 
+    /**
+     * Handles navigation to the cancellation view.
+     */
     @FXML
     public void handleCancellationButton() {
         try {
@@ -274,6 +310,9 @@ public class adminMovieManagementController {
         }
     }
 
+    /**
+     * Handles closing the current view and returning to the login view.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -298,6 +337,11 @@ public class adminMovieManagementController {
         }
     }
 
+    /**
+     * Saves changes to modified movies and navigates to the admin menu.
+     *
+     * @throws IOException If an error occurs during navigation.
+     */
     public void handleSaveButton() throws IOException {
         try {
             // Iterate over modified movies and update them in the database
@@ -330,6 +374,11 @@ public class adminMovieManagementController {
         }
     }
 
+    /**
+     * Adjusts the stage to fill the screen.
+     *
+     * @param stage The stage to adjust.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -340,6 +389,12 @@ public class adminMovieManagementController {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Displays an alert with a given title and message.
+     *
+     * @param title   The title of the alert.
+     * @param message The message to display.
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

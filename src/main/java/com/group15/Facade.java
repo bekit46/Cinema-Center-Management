@@ -1,3 +1,7 @@
+/**
+ * The Facade class serves as a centralized interface for interacting with the database.
+ * It provides various methods to manage users, products, movies, schedules, transactions, revenues, and transaction items.
+ */
 package com.group15;
 
 import java.sql.*;
@@ -11,12 +15,25 @@ import java.util.logging.Logger;
 public class Facade {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/cinema_center?serverTimezone=Europe/Istanbul";
     private static final String DB_USER = "root"; // Replace with your username
-    private static final String DB_PASSWORD = "ubkt1234"; // Replace with your password
+    private static final String DB_PASSWORD = "Ardayuksel2180"; // Replace with your password
 
+    /**
+     * Establishes a connection to the database.
+     *
+     * @return Connection object representing the database connection.
+     * @throws Exception if a connection cannot be established.
+     */
     public Connection connect() throws Exception {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
+    /**
+     * Validates a user's login credentials.
+     *
+     * @param username the username of the user.
+     * @param password the password of the user.
+     * @return User object if credentials are valid, otherwise null.
+     */
     // Method to validate user login
     public User validateLogin(String username, String password) {
         String query = "SELECT user_id, username, name, surname, password, role FROM users WHERE username = ? AND password = ?";
@@ -46,6 +63,11 @@ public class Facade {
 
     //################################################# PRODUCT CLASS FACADE CODES #############################################################################
 
+    /**
+     * Retrieves all products from the database.
+     *
+     * @return List of Product objects.
+     */
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         String query = "SELECT product_id, name, price, stock_quantity, tax_rate FROM Products";
@@ -68,6 +90,11 @@ public class Facade {
         return products;
     }
 
+    /**
+     * Updates a product's details in the database.
+     *
+     * @param product the Product object containing updated information.
+     */
     public void updateProduct(Product product) {
         String query = "UPDATE Products SET name = ?, price = ?, stock_quantity = ?, tax_rate = ? WHERE product_id = ?";
 
@@ -96,6 +123,12 @@ public class Facade {
         }
     }
 
+    /**
+     * Updates the stock quantity of a product.
+     *
+     * @param productId the ID of the product to update.
+     * @param quantity the quantity to deduct from the stock.
+     */
     public void updateStock(int productId, int quantity) {
         String query = "UPDATE Products SET stock_quantity = stock_quantity - ? WHERE product_id = ?";
 
@@ -118,6 +151,11 @@ public class Facade {
 
     //####################################### USER FACADE CODES #####################################################################
 
+    /**
+     * Retrieves all users from the database.
+     *
+     * @return List of User objects.
+     */
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT user_id, username, name, surname, role, password FROM Users";
@@ -141,6 +179,11 @@ public class Facade {
         return users;
     }
 
+    /**
+     * Adds a new user to the database.
+     *
+     * @param user the User object containing information about the new user.
+     */
     public void addNewUser(User user) {
         // Insert the user into the database
         String query = "INSERT INTO users (username, name, surname, role, password) VALUES (?, ?, ?, ?, ?)";
@@ -156,6 +199,11 @@ public class Facade {
         }
     }
 
+    /**
+     * Deletes a user from the database by their ID.
+     *
+     * @param userId the ID of the user to delete.
+     */
     public void deleteUser(int userId) {
         String query = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -166,6 +214,11 @@ public class Facade {
         }
     }
 
+    /**
+     * Updates a user's details in the database.
+     *
+     * @param user the User object containing updated information.
+     */
     public void updateUser(User user) {
         String query = "UPDATE users SET username = ?, name = ?, surname = ?, role = ?, password = ? WHERE user_id = ?";
 
@@ -198,6 +251,10 @@ public class Facade {
 
     //##################################### REVENUE FACADE FUNCTIONS ###################################################
 
+    /**
+     * Retrieves all revenues from the database.
+     * @return a list of Revenue objects.
+     */
     public List<Revenue> getAllRevenues() {
         List<Revenue> revenues = new ArrayList<>();
         String query = "SELECT tax_free, total_tax, total_amount FROM Revenue";
@@ -217,6 +274,13 @@ public class Facade {
         return revenues;
     }
 
+    /**
+     * Updates the revenue values by adding new amounts.
+     * @param newTaxFree the additional tax-free revenue.
+     * @param newTotalTax the additional total tax.
+     * @param newTotalAmount the additional total amount.
+     * @return true if the update was successful, false otherwise.
+     */
     public boolean updateRevenue(int newTaxFree, int newTotalTax, int newTotalAmount) {
         String query = "UPDATE Revenue SET tax_free = tax_free + ?, total_tax = total_tax + ?, total_amount = total_amount + ?";
         boolean isUpdated = false;
@@ -238,6 +302,10 @@ public class Facade {
 
     //####################################### MOVIES FACADE CODES #####################################################################
 
+    /**
+     * Retrieves all movies from the database.
+     * @return a list of Movie objects.
+     */
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT movie_id, poster, title, genre, summary, price, discount, tax FROM Movies";
@@ -263,6 +331,11 @@ public class Facade {
         return movies;
     }
 
+    /**
+     * Retrieves a movie by its ID.
+     * @param movieId the ID of the movie to retrieve.
+     * @return the Movie object, or null if not found.
+     */
     public Movie getMovieById(int movieId) {
         String query = "SELECT movie_id, poster, title, genre, summary, price, discount, tax FROM Movies WHERE movie_id = ?";
         Movie movie = null;  // Initialize the movie object to null
@@ -288,6 +361,11 @@ public class Facade {
         return movie;  // Return the movie object (it will be null if no result was found)
     }
 
+    /**
+     * Retrieves a movie by its title.
+     * @param movieTitle the title of the movie to retrieve.
+     * @return the Movie object, or null if not found.
+     */
     public Movie getMovieByTitle(String movieTitle) {
         String query = "SELECT movie_id, poster, title, genre, summary, price, discount, tax FROM Movies WHERE title = ?";
         Movie movie = null;  // Initialize the movie object to null
@@ -314,6 +392,11 @@ public class Facade {
         return movie;  // Return the movie object (it will be null if no result was found)
     }
 
+    /**
+     * Filters movies by their title.
+     * @param title the title keyword to filter by.
+     * @return a list of movies matching the keyword.
+     */
     // Method to filter movies by title
     public List<Movie> filterMoviesByTitle(String title) {
         String query = "SELECT * FROM Movies WHERE title LIKE ?";
@@ -344,6 +427,11 @@ public class Facade {
         return movies;
     }
 
+    /**
+     * Filters movies by their genre.
+     * @param genre the genre keyword to filter by.
+     * @return a list of movies matching the genre.
+     */
     // Method to filter movies by genre
     public List<Movie> filterMoviesByGenre(String genre) {
         String query = "SELECT * FROM Movies WHERE genre LIKE ?";
@@ -376,7 +464,10 @@ public class Facade {
         return movies;
     }
 
-
+    /**
+     * Deletes a movie from the database.
+     * @param movieId the ID of the movie to delete.
+     */
     public void deleteMovie(int movieId) {
         String query = "DELETE FROM Movies WHERE movie_id = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -387,6 +478,10 @@ public class Facade {
         }
     }
 
+    /**
+     * Adds a new movie to the database.
+     * @param movie the Movie object to add.
+     */
     public void addNewMovie(Movie movie) {
         // Insert the movie into the database
         String query = "INSERT INTO Movies (poster, title, genre, summary) VALUES (?, ?, ?, ?)";
@@ -401,6 +496,10 @@ public class Facade {
         }
     }
 
+    /**
+     * Updates an existing movie in the database.
+     * @param movie the Movie object with updated values.
+     */
     public void updateMovie(Movie movie) {
         String query = "UPDATE movies SET poster = ?, title = ?, genre = ?, summary = ?, price = ?, discount = ?, tax = ? WHERE movie_id = ?";
 
@@ -434,6 +533,11 @@ public class Facade {
 
     // ######################################################### SCHEDULE CLASS FACADE CODES #######################################
 
+    /**
+     * Retrieves all schedules from the database.
+     * @param selectedDate the date to filter schedules (optional).
+     * @return a list of Schedule objects.
+     */
     public List<Schedule> getSchedules(LocalDate selectedDate) {
         List<Schedule> schedules = new ArrayList<>();
         String query;
@@ -481,6 +585,12 @@ public class Facade {
         return schedules;
     }
 
+    /**
+     * Retrieves schedules for a specific date and movie ID.
+     * @param selectedDate the date to filter schedules.
+     * @param movieId the ID of the movie to filter schedules.
+     * @return a list of Schedule objects.
+     */
     public List<Schedule> getSchedules(LocalDate selectedDate, int movieId) {
         List<Schedule> schedules = new ArrayList<>();
         String query;
@@ -521,6 +631,11 @@ public class Facade {
         return schedules;
     }
 
+    /**
+     * Retrieves seating information for a specific schedule.
+     * @param scheduleId the ID of the schedule.
+     * @return the seating arrangement as a String.
+     */
     public String getSeatingById(int scheduleId) {
         // SQL query to retrieve the seating information for the given schedule_id
         String query = "SELECT seating FROM Schedules WHERE schedule_id = ?";
@@ -546,6 +661,11 @@ public class Facade {
         return seating;
     }
 
+    /**
+     * Retrieves the hall name for a specific schedule.
+     * @param scheduleId the ID of the schedule.
+     * @return the hall name as a String.
+     */
     public String getHallByScheduleId(int scheduleId) {
         // SQL query to retrieve the hall information for the given schedule_id
         String query = "SELECT hall_name FROM Schedules WHERE schedule_id = ?";
@@ -571,7 +691,11 @@ public class Facade {
         return hall_name;
     }
 
-
+    /**
+     * Retrieves all schedules for a specific movie ID.
+     * @param movieId the ID of the movie.
+     * @return a list of Schedule objects.
+     */
     public List<Schedule> getSchedulesByMovieId(int movieId) {
         String query = "SELECT schedule_id, fk_movie_id, date, session_time, hall_name, taken_seats, seating FROM Schedules WHERE fk_movie_id = ?";
 
@@ -598,6 +722,13 @@ public class Facade {
         return schedules;
     }
 
+    /**
+     * Checks if there is a schedule conflict for the given time and hall.
+     * @param scheduleDate the date of the schedule.
+     * @param scheduleTime the time of the schedule.
+     * @param hall the hall name.
+     * @return true if there is a conflict, false otherwise.
+     */
     public boolean checkCollapseInSchedule(Date scheduleDate, Time scheduleTime, String hall) {
         String query = "SELECT schedule_id FROM Schedules WHERE date = ? AND session_time = ? AND hall_name = ?";
         boolean collapse = false;
@@ -650,7 +781,12 @@ public class Facade {
             throw new RuntimeException("Error while updating the Schedule: " + e.getMessage(), e);
         }
     }
-
+    /**
+     * Updates the seat information for a schedule.
+     * @param scheduleId the ID of the schedule to update.
+     * @param soldSeats the number of seats sold.
+     * @param newSeating the updated seating arrangement.
+     */
     public void updateScheduleSeats(int scheduleId, int soldSeats, String newSeating) {
         String query = "UPDATE Schedules SET taken_seats = taken_seats + ?, seating = ? WHERE schedule_id = ?";
 
@@ -667,6 +803,10 @@ public class Facade {
         }
     }
 
+    /**
+     * Adds a new schedule to the database.
+     * @param schedule the Schedule object to add.
+     */
     public void addNewSchedule(Schedule schedule) {
         // Correct SQL query
         String query = "INSERT INTO Schedules (fk_movie_id, date, session_time, hall_name, taken_seats, seating) " +
@@ -688,6 +828,10 @@ public class Facade {
         }
     }
 
+    /**
+     * Deletes a schedule from the database.
+     * @param scheduleId the ID of the schedule to delete.
+     */
     public void deleteSchedule(int scheduleId) {
         String query = "DELETE FROM Schedules WHERE schedule_id = ?";
         try (Connection conn = connect(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -700,6 +844,10 @@ public class Facade {
 
 //######################################################## TRANSACTION TABLE FACADE CODES ########################################################################
 
+    /**
+     * Retrieves all transactions from the database.
+     * @return a list of Transaction objects.
+     */
     public List<Transaction> getAllTransactions() {
         List<Transaction> transactions = new ArrayList<>();
         String query = "SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_schedule_id, " +
@@ -759,6 +907,11 @@ public class Facade {
         return transaction;
     }
 
+    /**
+     * Retrieves a transaction by its ID.
+     * @param transactionId the ID of the transaction to retrieve.
+     * @return the Transaction object, or null if not found.
+     */
     public String getTransactionSeatsById(int transactionId) {
         String query = "SELECT seats FROM Transactions WHERE transaction_id = ?";
 
@@ -776,6 +929,11 @@ public class Facade {
         return seats;
     }
 
+    /**
+     * Retrieves the tax amount for a specific transaction.
+     * @param transactionId the ID of the transaction.
+     * @return the tax amount.
+     */
     public int getTaxById(int transactionId) {
         String query = "SELECT tax FROM Transactions WHERE transaction_id = ?";
 
@@ -793,6 +951,13 @@ public class Facade {
         return tax;
     }
 
+    /**
+     * Filters transactions by customer name, surname, and date.
+     * @param name the customer's first name.
+     * @param surname the customer's last name.
+     * @param date the transaction date.
+     * @return a list of filtered Transaction objects.
+     */
     public List<Transaction> getFilteredTransactions(String name, String surname, LocalDate date) {
         List<Transaction> transactions = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT t.transaction_id, t.customer_name, t.customer_surname, t.date, t.fk_schedule_id, " +
@@ -848,6 +1013,11 @@ public class Facade {
         return transactions;
     }
 
+    /**
+     * Deletes a transaction and updates related tables.
+     * @param transaction the Transaction object to delete.
+     * @return true if successful, false otherwise.
+     */
     public boolean deleteTransactionAndUpdate(Transaction transaction) {
         try (Connection conn = connect()) {
             conn.setAutoCommit(false); // Start transaction
@@ -927,6 +1097,12 @@ public class Facade {
         }
     }
 
+    /**
+     * Converts seat information to indices based on hall layout.
+     * @param seats the seat information as a String.
+     * @param hall the hall name.
+     * @return a list of seat indices.
+     */
     public static List<Integer> getSeatIndices(String seats, String hall) {
         List<Integer> indices = new ArrayList<>();
 
@@ -956,6 +1132,19 @@ public class Facade {
         return indices;
     }
 
+    /**
+     * Inserts a new transaction into the database.
+     * @param customerName the customer's first name.
+     * @param customerSurname the customer's last name.
+     * @param date the transaction date.
+     * @param scheduleId the associated schedule ID.
+     * @param seatQuantity the number of seats purchased.
+     * @param seats the seat details.
+     * @param totalPrice the total transaction price.
+     * @param tax the tax amount.
+     * @param discountApplied whether a discount was applied.
+     * @return the generated transaction ID, or -1 if insertion failed.
+     */
     public int insertTransaction(String customerName, String customerSurname, Date date,
                                  int scheduleId, int seatQuantity, String seats,
                                  int totalPrice, int tax, boolean discountApplied) {
@@ -1075,6 +1264,14 @@ public class Facade {
         }
     }
 
+    /**
+     * Inserts a new transaction item into the database.
+     * @param transactionId the associated transaction ID.
+     * @param productId the product ID.
+     * @param productQuantity the quantity of the product.
+     * @param totalPrice the total price for the product.
+     * @return true if insertion was successful, false otherwise.
+     */
     public boolean insertTransactionItem(int transactionId, int productId, int productQuantity, int totalPrice) {
         String query = "INSERT INTO Transaction_Items (fk_transaction_id, fk_product_id, product_quantity, total_price) " +
                 "VALUES (?, ?, ?, ?)";
@@ -1094,7 +1291,11 @@ public class Facade {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Retrieves transaction details for a specific transaction ID.
+     * @param transactionId the ID of the transaction.
+     * @return a formatted string of transaction details.
+     */
     public String getTransactionDetails(int transactionId) {
         String query = "SELECT p.name AS product_name, ti.product_quantity " +
                 "FROM Transaction_Items ti " +

@@ -1,3 +1,7 @@
+/**
+ * Controller class for managing the admin monthly schedule view.
+ * Provides functionalities for viewing, filtering, and managing movie schedules.
+ */
 package com.group15.controllers;
 import com.group15.Facade;
 import com.group15.Movie;
@@ -21,62 +25,118 @@ import java.util.Date;
 import java.util.List;
 import javafx.event.ActionEvent;
 
-
+/**
+ * Controller for the Admin Monthly Schedule interface.
+ * Handles schedule management, including adding, filtering, and deleting schedules.
+ */
 public class adminMonthlyScheduleController {
+
+    /** Table for displaying schedules. */
     @FXML
     private TableView<Schedule> scheduleTable;
+
+    /** Column for displaying schedule dates. */
     @FXML
     private TableColumn<Schedule, Date> dateColumn;
+
+    /** Column for displaying schedule times. */
     @FXML
     private TableColumn<Schedule, Time> timeColumn;
+
+    /** Column for displaying hall names. */
     @FXML
     private TableColumn<Schedule, String> hallColumn;
+
+    /** Column for displaying movie titles. */
     @FXML
     private TableColumn<Schedule, String> titleColumn;
+
+    /** Column for displaying sold tickets. */
     @FXML
     private TableColumn<Schedule, Integer> soldTicketColumn;
 
+    /** Label for displaying the username of the admin. */
     @FXML
     private Label usernameLabel;
+
+    /** Label for displaying the full name of the admin. */
     @FXML
     private Label nameSurnameLabel;
+
+    /** Label for displaying the role of the admin. */
     @FXML
     private Label roleLabel;
+
+    /** Button for closing the application. */
     @FXML
     private Button closeButton;
+
+    /** Button for saving changes. */
     @FXML
     private Button saveButton;// Correct type for closeButton
+
+    /** Button for navigating to the movie management view. */
     @FXML
     private Button movieManagementButton;
+
+    /** Button for navigating to the monthly schedule view. */
     @FXML
     private Button monthlyScheduleButton;
+
+    /** Button for navigating to the cancellation view. */
     @FXML
     private Button cancellationButton;
+
+    /** DatePicker for filtering schedules by date. */
     @FXML
     private DatePicker datePickerFilter;
+
+    /** DatePicker for adding new schedules. */
     @FXML
     private DatePicker datePickerAdd;
+
+    /** Button for adding a new schedule. */
     @FXML
     private Button addScheduleButton;
+
+    /** ChoiceBox for selecting schedule times. */
     @FXML
     private ChoiceBox<String> timeChoiceBox;
+
+    /** ChoiceBox for selecting movies. */
     @FXML
     private ChoiceBox<String> movieChoiceBox;
+
+    /** RadioButton for selecting Hall A. */
     @FXML
     private RadioButton radioButtonA;
+
+    /** RadioButton for selecting Hall B. */
     @FXML
     private RadioButton radioButtonB;
 
-
+    /** Facade for managing backend operations. */
     private Facade facade;
+
+    /** Current admin user. */
     private User user;
+
+    /** Observable list for managing schedule data. */
     private ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
 
+    /**
+     * Constructor for initializing the admin monthly schedule controller.
+     */
     public adminMonthlyScheduleController() {
         this.facade = new Facade();
         this.scheduleList = FXCollections.observableArrayList(); // Initialize the list
     }
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user The admin user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -85,17 +145,31 @@ public class adminMonthlyScheduleController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Handles date selection for filtering schedules.
+     *
+     * @param event The action event.
+     */
     @FXML
     private void handleDatePickerAction(ActionEvent event) {
         LocalDate selectedDate = datePickerFilter.getValue();
         loadSchedules(selectedDate);
     }
 
+    /**
+     * Handles date selection for adding new schedules.
+     *
+     * @param event The action event.
+     * @return The selected date.
+     */
     @FXML
     private LocalDate handleDatePickerAddAction(ActionEvent event) {
         return datePickerAdd.getValue();
     }
 
+    /**
+     * Initializes the controller and sets up UI components.
+     */
     @FXML
     public void initialize(){
         // Add context menu for deletion
@@ -138,6 +212,11 @@ public class adminMonthlyScheduleController {
 
     }
 
+    /**
+     * Loads schedules into the table based on the selected date.
+     *
+     * @param selectedDate The selected date for filtering schedules.
+     */
     private void loadSchedules(LocalDate selectedDate) {
         scheduleList.clear();
         List<Schedule> schedules = facade.getSchedules(selectedDate);
@@ -145,12 +224,18 @@ public class adminMonthlyScheduleController {
         scheduleTable.setItems(scheduleList);
     }
 
+    /**
+     * Sets up the radio buttons for selecting halls.
+     */
     private void setupRadioButtons() {
         ToggleGroup group = new ToggleGroup();
         radioButtonA.setToggleGroup(group);
         radioButtonB.setToggleGroup(group);
     }
 
+    /**
+     * Populates the movie choice box with available movies.
+     */
     private void populateMovieChoiceBox() {
         try {
             List<Movie> movies = facade.getAllMovies();
@@ -162,10 +247,16 @@ public class adminMonthlyScheduleController {
         }
     }
 
+    /**
+     * Sets up the time choice box with predefined session times.
+     */
     private void setupTimeChoiceBox() {
         timeChoiceBox.setItems(FXCollections.observableArrayList("12:00:00", "14:00:00", "16:00:00", "18:00:00", "20:00:00", "22:00:00"));
     }
 
+    /**
+     * Configures the date picker for adding schedules to only allow future dates.
+     */
     private void setupDatePicker() {
         datePickerAdd.setDayCellFactory(picker -> new DateCell() {
             @Override
@@ -177,6 +268,10 @@ public class adminMonthlyScheduleController {
         datePickerAdd.setPromptText("Select a Date");
     }
 
+
+    /**
+     * Sets up the table columns for displaying schedule data.
+     */
     @FXML
     public void handleMovieManagementButton() {
         try {
@@ -201,6 +296,9 @@ public class adminMonthlyScheduleController {
         }
     }
 
+    /**
+     * Handles the navigation to the monthly schedule view.
+     */
     @FXML
     public void handleMonthlyScheduleButton() {
         try {
@@ -225,6 +323,9 @@ public class adminMonthlyScheduleController {
         }
     }
 
+    /**
+     * Handles the navigation to the cancellation view.
+     */
     @FXML
     public void handleCancellationButton() {
         try {
@@ -249,6 +350,9 @@ public class adminMonthlyScheduleController {
         }
     }
 
+    /**
+     * Handles closing the current view and returning to the login view.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -273,6 +377,11 @@ public class adminMonthlyScheduleController {
         }
     }
 
+    /**
+     * Handles saving changes and returning to the admin menu.
+     *
+     * @throws IOException If an error occurs during navigation.
+     */
     public void handleSaveButton() throws IOException {
 
         // Load the admin menu scene
@@ -290,6 +399,9 @@ public class adminMonthlyScheduleController {
         currentStage.show();
     }
 
+    /**
+     * Handles adding a new schedule to the system.
+     */
     @FXML
     private void handleAddScheduleButton() {
         try {
@@ -353,6 +465,12 @@ public class adminMonthlyScheduleController {
         }
     }
 
+    /**
+     * Displays an alert with a given title and message.
+     *
+     * @param title   The title of the alert.
+     * @param message The message to display.
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -371,6 +489,11 @@ public class adminMonthlyScheduleController {
         alert.showAndWait();
     }
 
+    /**
+     * Adjusts the stage to fill the screen.
+     *
+     * @param stage The stage to adjust.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 

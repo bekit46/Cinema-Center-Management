@@ -1,3 +1,8 @@
+/**
+ * Controller class for managing the Revenue GUI in a JavaFX application.
+ * This class handles user interactions and updates the UI based on user actions.
+ * It also integrates with the backend logic using the Facade pattern.
+ */
 package com.group15.controllers;
 import com.group15.Facade;
 import com.group15.Revenue;
@@ -49,12 +54,20 @@ public class RevenueController {
 
     private final Facade facade;
 
+    /**
+     * Constructor for RevenueController. Initializes the Facade.
+     */
     public RevenueController() {
         this.facade = new Facade();
     }
 
     private User user;
 
+    /**
+     * Sets the user object and updates the labels with user information.
+     *
+     * @param user the current user
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -63,6 +76,10 @@ public class RevenueController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the controller after the FXML file is loaded.
+     * Sets up the TableView columns and loads revenue data.
+     */
     @FXML
     private void initialize() {
         taxFreeColumn.setCellValueFactory(new PropertyValueFactory<>("taxFree"));
@@ -89,11 +106,18 @@ public class RevenueController {
         });
     }
 
+    /**
+     * Loads revenue data from the Facade and populates the TableView.
+     */
     private void loadRevenueData() {
         ObservableList<Revenue> revenues = FXCollections.observableArrayList(facade.getAllRevenues());
         revenueTable.setItems(revenues);
     }
 
+    /**
+     * Handles the action of the close button.
+     * Closes the current stage and loads the login screen.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -118,6 +142,11 @@ public class RevenueController {
         }
     }
 
+
+    /**
+     * Handles the action of the save button.
+     * Loads the manager menu scene.
+     */
     public void handleSaveButton() {
         try {
             // Load the manager menu scene
@@ -139,6 +168,10 @@ public class RevenueController {
         }
     }
 
+    /**
+     * Handles the action of the inventory button.
+     * Navigates to the inventory management screen.
+     */
     @FXML
     public void handleInventoryButton() {
         try {
@@ -164,6 +197,10 @@ public class RevenueController {
         }
     }
 
+    /**
+     * Handles the action of the employee button.
+     * Navigates to the employee management screen.
+     */
     @FXML
     public void handleEmployeeButton() {
         try {
@@ -188,6 +225,11 @@ public class RevenueController {
         }
     }
 
+
+    /**
+     * Handles the action of the pricing button.
+     * Navigates to the movie pricing management screen.
+     */
     @FXML
     public void handlePricingButton() {
         try {
@@ -212,6 +254,10 @@ public class RevenueController {
         }
     }
 
+    /**
+     * Handles the action of the revenue button.
+     * Reloads the revenue screen.
+     */
     @FXML
     public void handleRevenueButton() {
         try {
@@ -235,6 +281,11 @@ public class RevenueController {
         }
     }
 
+    /**
+     * Adjusts the stage size to fill the entire screen.
+     *
+     * @param stage the stage to resize
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 

@@ -1,3 +1,7 @@
+/**
+ * The MovieController class is responsible for managing the movie pricing GUI and its interactions.
+ * It provides functionality to display, edit, and update movie data in a TableView.
+ */
 package com.group15.controllers;
 import com.group15.Facade;
 import com.group15.Movie;
@@ -59,6 +63,9 @@ public class MovieController {
     // To track modified movies
     private ObservableList<Movie> modifiedMovies;
 
+    /**
+     * Constructor initializes the facade and the list of modified movies.
+     */
     public MovieController() {
         this.facade = new Facade();
         this.modifiedMovies = FXCollections.observableArrayList(); // Initialize the list
@@ -66,6 +73,10 @@ public class MovieController {
 
     private User user;
 
+    /**
+     * Sets the logged-in user and updates the UI labels with the user's information.
+     * @param user the logged-in user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -74,6 +85,9 @@ public class MovieController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the movie table, sets cell factories, and configures edit commit handlers.
+     */
     @FXML
     private void initialize() {
         // Initialize the table columns
@@ -141,11 +155,18 @@ public class MovieController {
         });
     }
 
+    /**
+     * Loads movie data from the facade and populates the table.
+     */
     private void loadMovieData() {
         ObservableList<Movie> movies = FXCollections.observableArrayList(facade.getAllMovies());
         movieTable.setItems(movies);
     }
 
+
+    /**
+     * Handles the close button click to navigate to the login screen.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -169,6 +190,9 @@ public class MovieController {
         }
     }
 
+    /**
+     * Handles the save button click to save modified movie data.
+     */
     public void handleSaveButton() {
         try {
             // Iterate over modified movies and update them in the database
@@ -197,6 +221,9 @@ public class MovieController {
         }
     }
 
+    /**
+     * Handles navigation to the inventory management screen.
+     */
     @FXML
     public void handleInventoryButton() {
         try {
@@ -222,6 +249,9 @@ public class MovieController {
         }
     }
 
+    /**
+     * Handles navigation to the employee management screen.
+     */
     @FXML
     public void handleEmployeeButton() {
         try {
@@ -246,6 +276,9 @@ public class MovieController {
         }
     }
 
+    /**
+     * Handles navigation to the movie pricing management screen.
+     */
     @FXML
     public void handlePricingButton() {
         try {
@@ -270,6 +303,9 @@ public class MovieController {
         }
     }
 
+    /**
+     * Handles navigation to the revenue display screen.
+     */
     @FXML
     public void handleRevenueButton() {
         try {
@@ -293,6 +329,10 @@ public class MovieController {
         }
     }
 
+    /**
+     * Adjusts the stage to fill the entire screen.
+     * @param stage the stage to be resized.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -303,6 +343,11 @@ public class MovieController {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Displays an alert with a title and message.
+     * @param title   the title of the alert.
+     * @param message the message of the alert.
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

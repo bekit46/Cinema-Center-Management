@@ -1,3 +1,8 @@
+/**
+ * Controller class for managing the Admin Main Menu view.
+ * Provides functionalities for navigating to various admin features such as
+ * movie management, monthly schedule, and cancellations.
+ */
 package com.group15.controllers;
 
 import com.group15.User;
@@ -15,28 +20,52 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
-
+/**
+ * Controller for the Admin Main Menu interface.
+ * Handles navigation and displays user information.
+ */
 public class AdminController {
 
+    /** Label for displaying the username of the admin. */
     @FXML
     private Label usernameLabel;
+
+    /** Label for displaying the full name of the admin. */
     @FXML
     private Label nameSurnameLabel;
+
+    /** Label for displaying the role of the admin. */
     @FXML
     private Label roleLabel;
+
+    /** Button for closing the application. */
     @FXML
-    private Button closeButton; // Correct type for closeButton
+    private Button closeButton;// Correct type for closeButton
+
+    /** Button for navigating to the Movie Management interface. */
     @FXML
     private Button movieManagementButton;
+
+    /** Button for navigating to the Monthly Schedule interface. */
     @FXML
     private Button monthlyScheduleButton;
+
+    /** Button for navigating to the Cancellation interface. */
     @FXML
     private Button cancellationButton;
+
+    /** ImageView for displaying the main menu image. */
     @FXML
     private ImageView mainMenu;
 
+    /** The current admin user. */
     private User user;
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user The admin user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -45,6 +74,9 @@ public class AdminController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the controller and loads resources.
+     */
     @FXML
     public void initialize() {
         // Load the image resource from the classpath
@@ -52,6 +84,9 @@ public class AdminController {
         mainMenu.setImage(image);
     }
 
+    /**
+     * Handles navigation to the Movie Management view.
+     */
     @FXML
     public void handleMovieManagementButton() {
         try {
@@ -76,6 +111,9 @@ public class AdminController {
         }
     }
 
+    /**
+     * Handles navigation to the Monthly Schedule view.
+     */
     @FXML
     public void handleMonthlyScheduleButton() {
         try {
@@ -100,6 +138,9 @@ public class AdminController {
         }
     }
 
+    /**
+     * Handles navigation to the Cancellations Processes view.
+     */
     @FXML
     public void handleCancellationButton() {
         try {
@@ -124,6 +165,9 @@ public class AdminController {
         }
     }
 
+    /**
+     * Handles the close button action, closing the current stage and returning to the login view.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -148,6 +192,11 @@ public class AdminController {
         }
     }
 
+    /**
+     * Adjusts the stage to fill the screen.
+     *
+     * @param stage The stage to adjust.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 

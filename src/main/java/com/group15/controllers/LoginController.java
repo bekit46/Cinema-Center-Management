@@ -13,6 +13,10 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Controller class responsible for managing the login functionality.
+ * Handles user authentication and navigation to appropriate user role-based scenes.
+ */
 public class LoginController {
 
     @FXML
@@ -26,6 +30,10 @@ public class LoginController {
 
     private final Facade facade = new Facade();
 
+    /**
+     * Handles the login button action. Validates user credentials and navigates
+     * to the appropriate scene based on the user's role.
+     */
     @FXML
     public void handleLoginButton() {
         String username = usernameField.getText();
@@ -104,6 +112,11 @@ public class LoginController {
         currentStage.show();
     }
 
+    /**
+     * Adjusts the stage to fill the entire screen.
+     *
+     * @param stage The stage to be adjusted.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 

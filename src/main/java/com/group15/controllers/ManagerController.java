@@ -1,3 +1,7 @@
+/**
+ * Controller class for the Manager GUI.
+ * Handles interactions between the Manager view and the underlying application logic.
+ */
 package com.group15.controllers;
 import com.group15.User;
 import javafx.fxml.FXML;
@@ -38,6 +42,11 @@ public class ManagerController {
 
     private User user;
 
+    /**
+     * Sets the user information and updates the labels with the user's details.
+     *
+     * @param user The user object containing the user's details.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -46,6 +55,9 @@ public class ManagerController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the controller and loads the main menu image.
+     */
     @FXML
     public void initialize() {
         // Load the image resource from the classpath
@@ -53,6 +65,9 @@ public class ManagerController {
         mainMenu.setImage(image);
     }
 
+    /**
+     * Handles the Close button action. Closes the current view and loads the login screen.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -77,6 +92,9 @@ public class ManagerController {
         }
     }
 
+    /**
+     * Handles the Inventory button action. Loads the Inventory Management view.
+     */
     @FXML
     public void handleInventoryButton() {
         try {
@@ -102,6 +120,10 @@ public class ManagerController {
         }
     }
 
+
+    /**
+     * Handles the Employee button action. Loads the Employee Management view.
+     */
     @FXML
     public void handleEmployeeButton() {
         try {
@@ -126,6 +148,10 @@ public class ManagerController {
         }
     }
 
+
+    /**
+     * Handles the Pricing button action. Loads the Movie Pricing Management view.
+     */
     @FXML
     public void handlePricingButton() {
         try {
@@ -150,6 +176,9 @@ public class ManagerController {
         }
     }
 
+    /**
+     * Handles the Revenue button action. Loads the Revenue Display view.
+     */
     @FXML
     public void handleRevenueButton() {
         try {
@@ -173,6 +202,11 @@ public class ManagerController {
         }
     }
 
+    /**
+     * Adjusts the stage size to fill the entire screen.
+     *
+     * @param stage The stage to be resized.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 

@@ -1,3 +1,7 @@
+/**
+ * Controller class for managing the admin cancellation view.
+ * Handles the display and management of transactions, including refunds and filtering.
+ */
 package com.group15.controllers;
 import com.group15.*;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,53 +21,106 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Controller for the Admin Cancellation feature.
+ * Provides functionalities such as refunding transactions and filtering transaction records.
+ */
 public class adminCancellationController {
+
+    /** Table for displaying transactions. */
     @FXML
     private TableView<Transaction> transactionTable;
+
+    /** Column for displaying customer names. */
     @FXML
     private TableColumn<Transaction, String> nameColumn;
+
+    /** Column for displaying customer surnames. */
     @FXML
     private TableColumn<Transaction, String> surnameColumn;
+
+    /** Column for displaying transaction dates. */
     @FXML
     private TableColumn<Transaction, Date> dateColumn;
+
+    /** Column for displaying movie titles. */
     @FXML
     private TableColumn<Transaction, String> movieTitleColumn;
+
+    /** Column for displaying seat quantities. */
     @FXML
     private TableColumn<Transaction, Integer> seatQuantityColumn;
+
+    /** Column for displaying transaction details. */
     @FXML
     private TableColumn<Transaction, String> detailsColumn;
+
+    /** Column for displaying transaction costs. */
     @FXML
     private TableColumn<Transaction, Integer> costColumn;
+
+    /** TextField for filtering by customer name. */
     @FXML
     private TextField nameBox;
+
+    /** TextField for filtering by customer surname. */
     @FXML
     private TextField surnameBox;
+
+    /** Label for displaying the username of the admin. */
     @FXML
     private Label usernameLabel;
+
+    /** Label for displaying the full name of the admin. */
     @FXML
     private Label nameSurnameLabel;
+
+    /** Label for displaying the admin's role. */
     @FXML
     private Label roleLabel;
+
+    /** Button for closing the current window. */
     @FXML
     private Button closeButton;
+
+    /** Button for saving changes. */
     @FXML
     private Button saveButton;// Correct type for closeButton
+
+    /** Button for navigating to movie management. */
     @FXML
     private Button movieManagementButton;
+
+    /** Button for navigating to the monthly schedule. */
     @FXML
     private Button monthlyScheduleButton;
+
+    /** Button for handling cancellation processes. */
     @FXML
     private Button cancellationButton;
+
+    /** DatePicker for filtering transactions by date. */
     @FXML
     private DatePicker datePicker;
 
+    /** Current admin user. */
     private User user;
+
+    /** Facade for managing backend operations. */
     private Facade facade;
 
+    /**
+     * Constructor for initializing the admin cancellation controller.
+     */
     public adminCancellationController() {
         this.facade = new Facade();// Initialize the list
     }
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user The admin user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -72,6 +129,9 @@ public class adminCancellationController {
         roleLabel.setText(user.getRole());
     }
 
+    /**
+     * Initializes the controller and sets up UI components.
+     */
     @FXML
     public void initialize(){
         // Add context menu for deletion
@@ -124,6 +184,13 @@ public class adminCancellationController {
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> applyFilters());
     }
 
+    /**
+     * Loads transactions into the table based on filters.
+     *
+     * @param name The customer name filter.
+     * @param surname The customer surname filter.
+     * @param date The transaction date filter.
+     */
     private void loadTransactions(String name, String surname, LocalDate date) {
         ObservableList<Transaction> transactions;
 
@@ -139,7 +206,9 @@ public class adminCancellationController {
         transactionTable.setItems(transactions);
     }
 
-
+    /**
+     * Applies filters to the transaction table dynamically.
+     */
     private void applyFilters() {
         String name = nameBox.getText().trim();
         String surname = surnameBox.getText().trim();
@@ -152,6 +221,9 @@ public class adminCancellationController {
         );
     }
 
+    /**
+     * Handles navigation to the Movie Management view.
+     */
     @FXML
     public void handleMovieManagementButton() {
         try {
@@ -176,6 +248,9 @@ public class adminCancellationController {
         }
     }
 
+    /**
+     * Handles navigation to the Monthly Schedule view.
+     */
     @FXML
     public void handleMonthlyScheduleButton() {
         try {
@@ -200,6 +275,9 @@ public class adminCancellationController {
         }
     }
 
+    /**
+     * Handles navigation to the Cancellation Processes view.
+     */
     @FXML
     public void handleCancellationButton() {
         try {
@@ -224,6 +302,9 @@ public class adminCancellationController {
         }
     }
 
+    /**
+     * Handles the close button action, closing the current stage and returning to the login view.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -248,6 +329,11 @@ public class adminCancellationController {
         }
     }
 
+    /**
+     * Handles saving changes and navigating to the admin menu.
+     *
+     * @throws IOException If an error occurs while loading the view.
+     */
     public void handleSaveButton() throws IOException {
 
         // Load the admin menu scene
@@ -265,6 +351,11 @@ public class adminCancellationController {
         currentStage.show();
     }
 
+    /**
+     * Adjusts the stage to fill the screen.
+     *
+     * @param stage The stage to adjust.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -275,6 +366,12 @@ public class adminCancellationController {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Displays an alert with a given title and message.
+     *
+     * @param title   The title of the alert.
+     * @param message The message to display.
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

@@ -1,3 +1,8 @@
+/**
+ * Controller class for the stage5 view. This class manages the data and actions related to the
+ * final stage of the ticket booking process, including user information, movie details, and
+ * ticket/receipt generation.
+ */
 package com.group15.controllers;
 
 import com.group15.*;
@@ -130,6 +135,11 @@ public class stage5Controller {
     public double tax;
     public boolean discountApplied;
 
+    /**
+     * Sets the data for this controller and updates the UI accordingly.
+     *
+     * @param data The data to set.
+     */
     public void setData(DataPass data){
         this.data = data;
         schedule = data.schedule;
@@ -177,7 +187,14 @@ public class stage5Controller {
         nameSurnameTicket.setText(nameSurnameData);
 
     }
+
     public User user;
+
+    /**
+     * Sets the user data and updates the user information labels.
+     *
+     * @param user The user object to set.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -210,6 +227,12 @@ public class stage5Controller {
             // Handle the exception (e.g., show an error message)
         }
     }
+
+    /**
+     * Adjusts the stage to fill the entire screen.
+     *
+     * @param stage The stage to adjust.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -220,6 +243,9 @@ public class stage5Controller {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Initializes the UI components with default images.
+     */
     @FXML
     private void initialize() {
         Image image1 = new Image(getClass().getResource("/images/ticket/serit.png").toExternalForm());
@@ -241,6 +267,10 @@ public class stage5Controller {
         image1 = new Image(getClass().getResource("/images/extra/gibLogo.png").toExternalForm());
         gibLogo.setImage(image1);
     }
+
+    /**
+     * Finalizes the transaction, updates the database, and generates PDF tickets and receipts.
+     */
     @FXML
     public void end(){
 
@@ -303,6 +333,13 @@ public class stage5Controller {
         showAlert("Success", "Receipt and ticket printed successfully");
     }
 
+    /**
+     * Calculates seat indices based on the hall and seat selection.
+     *
+     * @param seats The seat selection string.
+     * @param hall  The hall identifier.
+     * @return A list of seat indices.
+     */
     public static List<Integer> getSeatIndices(String seats, String hall) {
         List<Integer> indices = new ArrayList<>();
 
@@ -332,6 +369,12 @@ public class stage5Controller {
         return indices;
     }
 
+    /**
+     * Saves a JavaFX node as a PDF file.
+     *
+     * @param node     The node to save.
+     * @param filePath The file path to save the PDF.
+     */
     public static void saveNodeAsPDF(Node node, String filePath) {
         try {
             // Set up snapshot parameters for higher resolution
@@ -368,7 +411,12 @@ public class stage5Controller {
         }
     }
 
-
+    /**
+     * Displays an informational alert with a given title and message.
+     *
+     * @param title   The title of the alert.
+     * @param message The message content of the alert.
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

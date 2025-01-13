@@ -1,3 +1,7 @@
+/**
+ * Controller class for managing the Employee Management view.
+ * Provides functionalities to add, edit, delete, and manage employees.
+ */
 package com.group15.controllers;
 import com.group15.Facade;
 import com.group15.User;
@@ -17,6 +21,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.cell.TextFieldTableCell;
 
+/**
+ * Controller for the Employee Management interface.
+ * Handles employee data operations including addition, deletion, and modification.
+ */
 public class EmployeeController {
     @FXML
     private TableView<User> employeeTable;
@@ -58,6 +66,9 @@ public class EmployeeController {
     // To track modified users
     private ObservableList<User> modifiedUsers;
 
+    /**
+     * Constructor to initialize the Facade and modified users list.
+     */
     public EmployeeController() {
         this.facade = new Facade();
         this.modifiedUsers = FXCollections.observableArrayList(); // Initialize the list
@@ -65,6 +76,11 @@ public class EmployeeController {
 
     private User user;
 
+    /**
+     * Sets the user information and updates the UI labels.
+     *
+     * @param user The manager user.
+     */
     public void setUser(User user) {
         this.user = user;
         // Update the labels with the user's information
@@ -74,7 +90,9 @@ public class EmployeeController {
     }
 
 
-
+    /**
+     * Initializes the controller and sets up UI components.
+     */
     @FXML
     private void initialize() {
         // Add context menu for deletion
@@ -208,6 +226,9 @@ public class EmployeeController {
         });
     }
 
+    /**
+     * Refreshes the table with a placeholder row if none exists.
+     */
     private void refreshTableWithPlaceholder() {
         ObservableList<User> currentUsers = FXCollections.observableArrayList(employeeTable.getItems());
 
@@ -221,6 +242,9 @@ public class EmployeeController {
         employeeTable.setItems(currentUsers);
     }
 
+    /**
+     * Loads employee data into the table.
+     */
     private void loadEmployeeData() {
         ObservableList<User> users = FXCollections.observableArrayList(facade.getAllUsers());
         User placeholder = new User(0, "", "", "", "", ""); // Adjust fields as needed
@@ -228,6 +252,9 @@ public class EmployeeController {
         employeeTable.setItems(users);
     }
 
+    /**
+     * Handles the close button action to return to the login view.
+     */
     @FXML
     public void handleCloseButton() {
         // Get the current stage
@@ -251,6 +278,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Handles saving changes to employees and updating the database.
+     */
     public void handleSaveButton() {
         try {
             // Iterate over modified users and update them in the database
@@ -282,6 +312,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Handles navigation to the inventory view.
+     */
     @FXML
     public void handleInventoryButton() {
         try {
@@ -308,6 +341,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Handles navigation to the employee management view.
+     */
     @FXML
     public void handleEmployeeButton() {
         try {
@@ -332,6 +368,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Handles navigation to the movie pricing management view.
+     */
     @FXML
     public void handlePricingButton() {
         try {
@@ -356,6 +395,9 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Handles navigation to the revenue view.
+     */
     @FXML
     public void handleRevenueButton() {
         try {
@@ -379,6 +421,11 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * Maximizes the given stage to fill the screen.
+     *
+     * @param stage The stage to be maximized.
+     */
     public void makeStageFillScreen(Stage stage) {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
@@ -389,6 +436,12 @@ public class EmployeeController {
         stage.setHeight(screenBounds.getHeight());
     }
 
+    /**
+     * Displays an alert dialog with the specified title and message.
+     *
+     * @param title   The title of the alert.
+     * @param message The message to display.
+     */
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
